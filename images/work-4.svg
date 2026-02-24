@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="600" viewBox="0 0 600 600">
+  <rect width="600" height="600" fill="#1a1a1a"/>
+  <circle cx="300" cy="240" r="100" fill="none" stroke="#d4a853" stroke-width="2"/>
+  <path d="M300 140 Q340 180 340 240 Q340 300 300 340 Q260 300 260 240 Q260 180 300 140Z" fill="none" stroke="#d4a853" stroke-width="1.5"/>
+  <path d="M200 240 Q240 200 300 200 Q360 200 400 240 Q360 280 300 280 Q240 280 200 240Z" fill="none" stroke="#d4a853" stroke-width="1"/>
+  <circle cx="300" cy="240" r="30" fill="none" stroke="#d4a853" stroke-width="1" opacity="0.5"/>
+  <path d="M250 180 Q270 200 260 220" fill="none" stroke="#d4a853" stroke-width="0.8" opacity="0.4"/>
+  <path d="M350 180 Q330 200 340 220" fill="none" stroke="#d4a853" stroke-width="0.8" opacity="0.4"/>
+  <path d="M250 300 Q270 280 260 260" fill="none" stroke="#d4a853" stroke-width="0.8" opacity="0.4"/>
+  <path d="M350 300 Q330 280 340 260" fill="none" stroke="#d4a853" stroke-width="0.8" opacity="0.4"/>
+  <text x="300" y="440" text-anchor="middle" fill="#555" font-family="sans-serif" font-size="18" letter-spacing="4">JAPANESE</text>
+</svg>
