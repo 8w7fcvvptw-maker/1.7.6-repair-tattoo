@@ -1,52 +1,59 @@
 /* =============================================
-   CONFIGURATION — replace with your own values
+   НАСТРОЙКА — замените на свои значения
+   Как получить токен и chat_id — читай README.md
    ============================================= */
-const TELEGRAM_BOT_TOKEN = 'YOUR_BOT_TOKEN';
-const TELEGRAM_CHAT_ID = 'YOUR_CHAT_ID';
+const TELEGRAM_BOT_TOKEN = 'YOUR_BOT_TOKEN'; // токен от @BotFather
+const TELEGRAM_CHAT_ID   = 'YOUR_CHAT_ID';   // ваш числовой id в Telegram
 
 /* =============================================
-   DOM ELEMENTS
+   ПОЛУЧАЕМ ЭЛЕМЕНТЫ СО СТРАНИЦЫ
+   Мы обращаемся к HTML-элементам по их id,
+   чтобы потом управлять ими из JavaScript.
    ============================================= */
-const header = document.getElementById('header');
-const burger = document.getElementById('burger');
-const nav = document.getElementById('nav');
-const navLinks = document.querySelectorAll('.nav__link');
-const bookingForm = document.getElementById('booking-form');
-const bookingSuccess = document.getElementById('booking-success');
-const submitBtn = document.getElementById('submit-btn');
+const header       = document.getElementById('header');
+const burger       = document.getElementById('burger');        // кнопка-гамбургер (мобилка)
+const nav          = document.getElementById('nav');           // мобильное меню
+const navLinks     = document.querySelectorAll('.nav__link');  // все ссылки в меню
+const bookingForm  = document.getElementById('booking-form'); // форма записи
+const bookingSuccess = document.getElementById('booking-success'); // сообщение об успехе
+const submitBtn    = document.getElementById('submit-btn');   // кнопка «Отправить»
 
-const lightbox = document.getElementById('lightbox');
-const lightboxImg = document.getElementById('lightbox-img');
+// Элементы лайтбокса (увеличенный просмотр фото портфолио)
+const lightbox      = document.getElementById('lightbox');
+const lightboxImg   = document.getElementById('lightbox-img');
 const lightboxClose = document.getElementById('lightbox-close');
-const lightboxPrev = document.getElementById('lightbox-prev');
-const lightboxNext = document.getElementById('lightbox-next');
+const lightboxPrev  = document.getElementById('lightbox-prev');
+const lightboxNext  = document.getElementById('lightbox-next');
 const portfolioItems = document.querySelectorAll('.portfolio__item');
 
+// Собираем пути к картинкам портфолио в массив для переключения в лайтбоксе
 let currentImageIndex = 0;
 const portfolioImages = Array.from(portfolioItems).map(
   item => item.querySelector('img').src
 );
 
 /* =============================================
-   HEADER SCROLL EFFECT
+   ШАПКА: подсветка при прокрутке
+   Когда пользователь листает страницу вниз,
+   добавляем класс .scrolled — шапка становится
+   чуть темнее (см. стили .header.scrolled).
    ============================================= */
-let lastScroll = 0;
-
 window.addEventListener('scroll', () => {
-  const scrollY = window.scrollY;
-  header.classList.toggle('scrolled', scrollY > 50);
-  lastScroll = scrollY;
-}, { passive: true });
+  header.classList.toggle('scrolled', window.scrollY > 50);
+}, { passive: true }); // passive: true — подсказка браузеру для плавности
 
 /* =============================================
-   MOBILE MENU
+   МОБИЛЬНОЕ МЕНЮ (гамбургер)
+   По клику на иконку — открываем/закрываем меню.
+   Блокируем скролл страницы, пока меню открыто.
    ============================================= */
 burger.addEventListener('click', () => {
-  burger.classList.toggle('active');
-  nav.classList.toggle('open');
+  burger.classList.toggle('active'); // анимация X на кнопке
+  nav.classList.toggle('open');      // выезжает меню справа
   document.body.style.overflow = nav.classList.contains('open') ? 'hidden' : '';
 });
 
+// По клику на любую ссылку в меню — закрываем его
 navLinks.forEach(link => {
   link.addEventListener('click', () => {
     burger.classList.remove('active');
@@ -56,7 +63,10 @@ navLinks.forEach(link => {
 });
 
 /* =============================================
-   ACTIVE NAV LINK ON SCROLL
+   АКТИВНАЯ ССЫЛКА В МЕНЮ
+   IntersectionObserver следит, какая секция
+   сейчас в центре экрана, и подсвечивает
+   соответствующую ссылку в навигации.
    ============================================= */
 const sections = document.querySelectorAll('.section');
 
@@ -66,21 +76,23 @@ const navObserver = new IntersectionObserver(
       if (entry.isIntersecting) {
         const id = entry.target.id;
         navLinks.forEach(link => {
-          link.classList.toggle(
-            'active',
-            link.getAttribute('href') === `#${id}`
-          );
+          // Добавляем .active той ссылке, чей href совпадает с id секции
+          link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
         });
       }
     });
   },
-  { rootMargin: '-40% 0px -60% 0px' }
+  { rootMargin: '-40% 0px -60% 0px' } // секция считается «активной» в средней части экрана
 );
 
 sections.forEach(section => navObserver.observe(section));
 
 /* =============================================
-   FADE-IN ANIMATION ON SCROLL
+   АНИМАЦИЯ ПОЯВЛЕНИЯ ЭЛЕМЕНТОВ
+   Все элементы с классом .fade-in изначально
+   прозрачны (opacity: 0 в CSS). Когда они
+   появляются в поле зрения — добавляем .visible
+   и они плавно проявляются.
    ============================================= */
 const fadeElements = document.querySelectorAll('.fade-in');
 
@@ -89,24 +101,28 @@ const fadeObserver = new IntersectionObserver(
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('visible');
-        fadeObserver.unobserve(entry.target);
+        fadeObserver.unobserve(entry.target); // больше не следим — анимация одноразовая
       }
     });
   },
-  { threshold: 0.15 }
+  { threshold: 0.15 } // элемент должен быть виден хотя бы на 15%
 );
 
 fadeElements.forEach(el => fadeObserver.observe(el));
 
 /* =============================================
-   LIGHTBOX GALLERY
+   ЛАЙТБОКС — увеличенный просмотр портфолио
+   openLightbox(index) — открывает фото по номеру
+   closeLightbox()     — закрывает
+   showPrevImage()     — предыдущее фото
+   showNextImage()     — следующее фото
    ============================================= */
 function openLightbox(index) {
   currentImageIndex = index;
   lightboxImg.src = portfolioImages[index];
   lightboxImg.alt = portfolioItems[index].querySelector('img').alt;
   lightbox.classList.add('active');
-  document.body.style.overflow = 'hidden';
+  document.body.style.overflow = 'hidden'; // запрещаем скролл фона
 }
 
 function closeLightbox() {
@@ -115,8 +131,8 @@ function closeLightbox() {
 }
 
 function showPrevImage() {
-  currentImageIndex =
-    (currentImageIndex - 1 + portfolioImages.length) % portfolioImages.length;
+  // % (остаток от деления) — чтобы зациклить: после первого — последнее
+  currentImageIndex = (currentImageIndex - 1 + portfolioImages.length) % portfolioImages.length;
   lightboxImg.src = portfolioImages[currentImageIndex];
 }
 
@@ -125,10 +141,10 @@ function showNextImage() {
   lightboxImg.src = portfolioImages[currentImageIndex];
 }
 
+// Клик на карточку портфолио
 portfolioItems.forEach(item => {
   item.addEventListener('click', () => {
-    const index = parseInt(item.dataset.index, 10);
-    openLightbox(index);
+    openLightbox(parseInt(item.dataset.index, 10));
   });
 });
 
@@ -136,19 +152,23 @@ lightboxClose.addEventListener('click', closeLightbox);
 lightboxPrev.addEventListener('click', showPrevImage);
 lightboxNext.addEventListener('click', showNextImage);
 
+// Клик на затемнённый фон — закрываем
 lightbox.addEventListener('click', e => {
   if (e.target === lightbox) closeLightbox();
 });
 
+// Клавиатурное управление лайтбоксом
 document.addEventListener('keydown', e => {
   if (!lightbox.classList.contains('active')) return;
-  if (e.key === 'Escape') closeLightbox();
-  if (e.key === 'ArrowLeft') showPrevImage();
+  if (e.key === 'Escape')     closeLightbox();
+  if (e.key === 'ArrowLeft')  showPrevImage();
   if (e.key === 'ArrowRight') showNextImage();
 });
 
 /* =============================================
-   FORM VALIDATION & SUBMISSION
+   ВАЛИДАЦИЯ ФОРМЫ
+   Функции проверки каждого поля.
+   Возвращают строку с ошибкой или '' (пусто = ок).
    ============================================= */
 const validators = {
   name: value => {
@@ -158,15 +178,13 @@ const validators = {
   },
   phone: value => {
     if (!value.trim()) return 'Введите номер телефона';
-    const cleaned = value.replace(/[\s\-\(\)]/g, '');
-    if (!/^\+?\d{10,15}$/.test(cleaned))
-      return 'Введите корректный номер телефона';
+    const cleaned = value.replace(/[\s\-\(\)]/g, ''); // убираем пробелы и скобки
+    if (!/^\+?\d{10,15}$/.test(cleaned)) return 'Введите корректный номер телефона';
     return '';
   },
   email: value => {
-    if (!value.trim()) return '';
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value))
-      return 'Введите корректный email';
+    if (!value.trim()) return ''; // email необязателен
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return 'Введите корректный email';
     return '';
   },
   service: value => {
@@ -175,6 +193,7 @@ const validators = {
   },
 };
 
+// Показываем или убираем ошибку под полем
 function showError(fieldId, message) {
   const input = document.getElementById(fieldId);
   const error = document.getElementById(`${fieldId}-error`);
@@ -187,114 +206,112 @@ function showError(fieldId, message) {
   }
 }
 
+// Проверяем всю форму, возвращаем true если всё ок
 function validateForm() {
   let isValid = true;
   for (const [field, validate] of Object.entries(validators)) {
-    const input = document.getElementById(field);
-    const error = validate(input.value);
+    const error = validate(document.getElementById(field).value);
     showError(field, error);
     if (error) isValid = false;
   }
   return isValid;
 }
 
+// Проверка поля в реальном времени (при вводе)
 ['name', 'phone', 'email', 'service'].forEach(fieldId => {
-  const input = document.getElementById(fieldId);
-  input.addEventListener('input', () => {
-    if (validators[fieldId]) {
-      showError(fieldId, validators[fieldId](input.value));
-    }
+  document.getElementById(fieldId).addEventListener('input', () => {
+    const input = document.getElementById(fieldId);
+    showError(fieldId, validators[fieldId](input.value));
   });
 });
 
+/* =============================================
+   ОТПРАВКА ЗАЯВКИ В TELEGRAM
+   Формируем текст сообщения и отправляем через
+   Telegram Bot API. Токен и chat_id — вверху файла.
+   ============================================= */
 const SERVICE_LABELS = {
-  tattoo: 'Татуировка',
-  coverup: 'Перекрытие',
+  tattoo:     'Татуировка',
+  coverup:    'Перекрытие',
   correction: 'Коррекция',
-  sketch: 'Разработка эскиза',
+  sketch:     'Разработка эскиза',
 };
 
 async function sendToTelegram(data) {
+  // Собираем текст сообщения (пустые поля пропускаем через .filter(Boolean))
   const text = [
     '📋 *Новая заявка на запись*',
     '',
     `👤 *Имя:* ${data.name}`,
     `📞 *Телефон:* ${data.phone}`,
-    data.email ? `📧 *Email:* ${data.email}` : '',
+    data.email   ? `📧 *Email:* ${data.email}` : '',
     `🔧 *Услуга:* ${SERVICE_LABELS[data.service] || data.service}`,
-    data.date ? `📅 *Дата:* ${data.date}` : '',
+    data.date    ? `📅 *Дата:* ${data.date}` : '',
     data.message ? `💬 *Комментарий:* ${data.message}` : '',
-  ]
-    .filter(Boolean)
-    .join('\n');
+  ].filter(Boolean).join('\n');
 
-  const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+  const response = await fetch(
+    `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        chat_id:    TELEGRAM_CHAT_ID,
+        text,
+        parse_mode: 'Markdown',
+      }),
+    }
+  );
 
-  const response = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      chat_id: TELEGRAM_CHAT_ID,
-      text,
-      parse_mode: 'Markdown',
-    }),
-  });
-
-  if (!response.ok) {
-    throw new Error('Telegram API error');
-  }
-
+  if (!response.ok) throw new Error('Telegram API error');
   return response.json();
 }
 
+// Обработка отправки формы
 bookingForm.addEventListener('submit', async e => {
-  e.preventDefault();
+  e.preventDefault(); // не перезагружаем страницу
 
-  if (!validateForm()) return;
+  if (!validateForm()) return; // стоп, если есть ошибки
 
   const formData = {
-    name: document.getElementById('name').value.trim(),
-    phone: document.getElementById('phone').value.trim(),
-    email: document.getElementById('email').value.trim(),
+    name:    document.getElementById('name').value.trim(),
+    phone:   document.getElementById('phone').value.trim(),
+    email:   document.getElementById('email').value.trim(),
     service: document.getElementById('service').value,
-    date: document.getElementById('date').value,
+    date:    document.getElementById('date').value,
     message: document.getElementById('message').value.trim(),
   };
 
-  submitBtn.disabled = true;
+  submitBtn.disabled    = true;
   submitBtn.textContent = 'Отправка...';
 
   try {
     await sendToTelegram(formData);
     bookingForm.style.display = 'none';
-    bookingSuccess.classList.add('show');
+    bookingSuccess.classList.add('show'); // показываем сообщение «Заявка отправлена!»
   } catch {
-    alert(
-      'Не удалось отправить заявку. Пожалуйста, свяжитесь с нами по телефону.'
-    );
+    alert('Не удалось отправить заявку. Пожалуйста, свяжитесь с нами по телефону.');
   } finally {
-    submitBtn.disabled = false;
+    submitBtn.disabled    = false;
     submitBtn.textContent = 'Отправить заявку';
   }
 });
 
 /* =============================================
-   PHONE INPUT MASK (simple)
+   МАСКА НОМЕРА ТЕЛЕФОНА
+   Автоматически форматирует ввод в вид:
+   +7 (999) 123-45-67
    ============================================= */
 const phoneInput = document.getElementById('phone');
 
 phoneInput.addEventListener('input', () => {
-  let val = phoneInput.value.replace(/\D/g, '');
+  let val = phoneInput.value.replace(/\D/g, ''); // оставляем только цифры
 
-  if (val.startsWith('8')) {
-    val = '7' + val.slice(1);
-  }
+  if (val.startsWith('8')) val = '7' + val.slice(1); // 8 → +7
 
-  if (val.length === 0) {
-    phoneInput.value = '';
-    return;
-  }
+  if (val.length === 0) { phoneInput.value = ''; return; }
 
+  // Собираем форматированную строку по частям
   let formatted = '+';
   if (val.length > 0) formatted += val.slice(0, 1);
   if (val.length > 1) formatted += ' (' + val.slice(1, 4);
@@ -306,8 +323,10 @@ phoneInput.addEventListener('input', () => {
 });
 
 /* =============================================
-   SET MIN DATE ON DATE INPUT
+   МИНИМАЛЬНАЯ ДАТА В ПОЛЕ «ЖЕЛАЕМАЯ ДАТА»
+   Запрещаем выбирать прошедшие даты.
    ============================================= */
-const dateInput = document.getElementById('date');
-const today = new Date().toISOString().split('T')[0];
-dateInput.setAttribute('min', today);
+document.getElementById('date').setAttribute(
+  'min',
+  new Date().toISOString().split('T')[0] // формат YYYY-MM-DD
+);
