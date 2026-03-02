@@ -794,6 +794,13 @@ textarea {
   font-size: 0.85rem;
 }
 
+.footer__disclaimer {
+  margin-top: 10px;
+  font-size: 0.7rem;
+  color: #666;
+  line-height: 1.5;
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 992px) {
   .about__inner {

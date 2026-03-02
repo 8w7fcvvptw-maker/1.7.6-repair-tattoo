@@ -182,11 +182,6 @@ const validators = {
     if (!/^\+?\d{10,15}$/.test(cleaned)) return 'Введите корректный номер телефона';
     return '';
   },
-  email: value => {
-    if (!value.trim()) return ''; // email необязателен
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return 'Введите корректный email';
-    return '';
-  },
   service: value => {
     if (!value) return 'Выберите услугу';
     return '';
@@ -218,7 +213,7 @@ function validateForm() {
 }
 
 // Проверка поля в реальном времени (при вводе)
-['name', 'phone', 'email', 'service'].forEach(fieldId => {
+['name', 'phone', 'service'].forEach(fieldId => {
   document.getElementById(fieldId).addEventListener('input', () => {
     const input = document.getElementById(fieldId);
     showError(fieldId, validators[fieldId](input.value));
@@ -244,7 +239,6 @@ async function sendToTelegram(data) {
     '',
     `👤 *Имя:* ${data.name}`,
     `📞 *Телефон:* ${data.phone}`,
-    data.email   ? `📧 *Email:* ${data.email}` : '',
     `🔧 *Услуга:* ${SERVICE_LABELS[data.service] || data.service}`,
     data.date    ? `📅 *Дата:* ${data.date}` : '',
     data.message ? `💬 *Комментарий:* ${data.message}` : '',
@@ -276,7 +270,6 @@ bookingForm.addEventListener('submit', async e => {
   const formData = {
     name:    document.getElementById('name').value.trim(),
     phone:   document.getElementById('phone').value.trim(),
-    email:   document.getElementById('email').value.trim(),
     service: document.getElementById('service').value,
     date:    document.getElementById('date').value,
     message: document.getElementById('message').value.trim(),
