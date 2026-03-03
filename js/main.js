@@ -323,3 +323,53 @@ document.getElementById('date').setAttribute(
   'min',
   new Date().toISOString().split('T')[0] // формат YYYY-MM-DD
 );
+
+/* =============================================
+   ВИДЖЕТ ОНЛАЙН-КОНСУЛЬТАНТА
+   ============================================= */
+const chatWidget = document.getElementById('chat-widget');
+const chatBtn    = document.getElementById('chat-btn');
+const chatClose  = document.getElementById('chat-close');
+const faqItems   = document.querySelectorAll('.chat-faq__item');
+
+// Открыть / закрыть поповер
+function toggleChat(forceOpen) {
+  const isOpen = chatWidget.classList.contains('is-open');
+  const shouldOpen = forceOpen !== undefined ? forceOpen : !isOpen;
+  chatWidget.classList.toggle('is-open', shouldOpen);
+  chatBtn.setAttribute('aria-expanded', String(shouldOpen));
+}
+
+chatBtn.addEventListener('click', () => toggleChat());
+chatClose.addEventListener('click', () => toggleChat(false));
+
+// Закрыть по клику вне виджета
+document.addEventListener('click', (e) => {
+  if (!chatWidget.contains(e.target)) {
+    toggleChat(false);
+  }
+});
+
+// Закрыть по Escape
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') toggleChat(false);
+});
+
+// Аккордеон вопросов — открыть/закрыть ответ
+faqItems.forEach((item) => {
+  item.addEventListener('click', () => {
+    const isActive = item.classList.contains('is-active');
+    // Закрываем все остальные
+    faqItems.forEach((i) => i.classList.remove('is-active'));
+    // Если не было активным — открываем
+    if (!isActive) item.classList.add('is-active');
+  });
+
+  // Поддержка клавиатуры (Enter / Space)
+  item.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      item.click();
+    }
+  });
+});
