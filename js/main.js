@@ -170,16 +170,20 @@ document.addEventListener('keydown', e => {
    Функции проверки каждого поля.
    Возвращают строку с ошибкой или '' (пусто = ок).
    ============================================= */
+const MIN_NAME_LENGTH = 2;
+const PHONE_REGEX = /^\+?\d{10,15}$/;
+
 const validators = {
   name: value => {
-    if (!value.trim()) return 'Введите ваше имя';
-    if (value.trim().length < 2) return 'Имя должно содержать минимум 2 символа';
+    const trimmed = value.trim();
+    if (!trimmed) return 'Введите ваше имя';
+    if (trimmed.length < MIN_NAME_LENGTH) return 'Имя должно содержать минимум 2 символа';
     return '';
   },
   phone: value => {
     if (!value.trim()) return 'Введите номер телефона';
     const cleaned = value.replace(/[\s\-\(\)]/g, ''); // убираем пробелы и скобки
-    if (!/^\+?\d{10,15}$/.test(cleaned)) return 'Введите корректный номер телефона';
+    if (!PHONE_REGEX.test(cleaned)) return 'Введите корректный номер телефона';
     return '';
   },
   service: value => {
@@ -187,6 +191,8 @@ const validators = {
     return '';
   },
 };
+
+const FORM_FIELDS = Object.keys(validators);
 
 // Показываем или убираем ошибку под полем
 function showError(fieldId, message) {
@@ -213,10 +219,9 @@ function validateForm() {
 }
 
 // Проверка поля в реальном времени (при вводе)
-['name', 'phone', 'service'].forEach(fieldId => {
-  document.getElementById(fieldId).addEventListener('input', () => {
-    const input = document.getElementById(fieldId);
-    showError(fieldId, validators[fieldId](input.value));
+FORM_FIELDS.forEach(fieldId => {
+  document.getElementById(fieldId).addEventListener('input', e => {
+    showError(fieldId, validators[fieldId](e.target.value));
   });
 });
 
