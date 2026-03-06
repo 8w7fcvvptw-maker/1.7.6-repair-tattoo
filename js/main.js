@@ -276,7 +276,7 @@ bookingForm.addEventListener('submit', async e => {
     name:    document.getElementById('name').value.trim(),
     phone:   document.getElementById('phone').value.trim(),
     service: document.getElementById('service').value,
-    date:    document.getElementById('date').value,
+    date:    dateDisplay.value, // формат дд.мм.гггг из видимого поля
     message: document.getElementById('message').value.trim(),
   };
 
@@ -321,13 +321,118 @@ phoneInput.addEventListener('input', () => {
 });
 
 /* =============================================
-   МИНИМАЛЬНАЯ ДАТА В ПОЛЕ «ЖЕЛАЕМАЯ ДАТА»
-   Запрещаем выбирать прошедшие даты.
+   КАСТОМНЫЙ КАЛЕНДАРЬ ДЛЯ ПОЛЯ «ЖЕЛАЕМАЯ ДАТА»
+   Открывается по клику на поле, закрывается по
+   клику вне или после выбора даты.
+   Прошедшие даты недоступны.
    ============================================= */
-document.getElementById('date').setAttribute(
-  'min',
-  new Date().toISOString().split('T')[0] // формат YYYY-MM-DD
-);
+const dateDisplay = document.getElementById('date-display'); // видимое поле
+const dateHidden  = document.getElementById('date');         // скрытое поле для отправки
+const calPopup    = document.getElementById('cal-popup');    // контейнер попапа
+
+// Текущий месяц/год в попапе (стартуем с сегодняшнего)
+let calYear  = new Date().getFullYear();
+let calMonth = new Date().getMonth(); // 0–11
+
+// Названия месяцев и дней недели
+const MONTH_NAMES = ['Январь','Февраль','Март','Апрель','Май','Июнь',
+                     'Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
+const WEEK_DAYS   = ['Пн','Вт','Ср','Чт','Пт','Сб','Вс'];
+
+// Рендерим HTML-содержимое попапа для calYear / calMonth
+function renderCalendar() {
+  const today    = new Date(); today.setHours(0,0,0,0);
+  const selected = dateHidden.value; // 'YYYY-MM-DD' или ''
+
+  // Первый день месяца; getDay() → 0=вс..6=сб, переводим в пн=0..вс=6
+  const firstDay = new Date(calYear, calMonth, 1);
+  let   startDow = firstDay.getDay(); // 0=вс
+  startDow = (startDow === 0) ? 6 : startDow - 1; // пн=0 … вс=6
+
+  const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+
+  // Шапка: кнопки навигации + месяц/год
+  let html = `
+    <div class="cal-header">
+      <button class="cal-nav" id="cal-prev" aria-label="Предыдущий месяц">&#8249;</button>
+      <span class="cal-header__title">${MONTH_NAMES[calMonth]} ${calYear}</span>
+      <button class="cal-nav" id="cal-next" aria-label="Следующий месяц">&#8250;</button>
+    </div>
+    <div class="cal-weekdays">
+      ${WEEK_DAYS.map(d => `<span class="cal-weekday">${d}</span>`).join('')}
+    </div>
+    <div class="cal-days">
+  `;
+
+  // Пустые ячейки до первого числа
+  for (let i = 0; i < startDow; i++) {
+    html += `<button class="cal-day" disabled></button>`;
+  }
+
+  // Ячейки с днями
+  for (let d = 1; d <= daysInMonth; d++) {
+    const date    = new Date(calYear, calMonth, d);
+    const iso     = `${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const isPast = date < today;
+    const isTod  = date.getTime() === today.getTime();
+    const isSel  = iso === selected;
+
+    html += `<button class="cal-day ${isTod ? 'is-today' : ''} ${isSel ? 'is-selected' : ''}"
+               data-date="${iso}" ${isPast ? 'disabled' : ''}>${d}</button>`;
+  }
+
+  html += `</div>`;
+  calPopup.innerHTML = html;
+
+  // Навигация по месяцам — e.stopPropagation() чтобы не закрыть попап
+  document.getElementById('cal-prev').addEventListener('click', e => {
+    e.stopPropagation();
+    calMonth--; if (calMonth < 0) { calMonth = 11; calYear--; }
+    renderCalendar();
+  });
+  document.getElementById('cal-next').addEventListener('click', e => {
+    e.stopPropagation();
+    calMonth++; if (calMonth > 11) { calMonth = 0; calYear++; }
+    renderCalendar();
+  });
+
+  // Клик на день — выбираем дату
+  calPopup.querySelectorAll('.cal-day[data-date]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const iso = btn.dataset.date;                          // YYYY-MM-DD
+      const [y, m, day] = iso.split('-');
+      dateHidden.value  = iso;                               // скрытое поле
+      dateDisplay.value = `${day}.${m}.${y}`;               // формат дд.мм.гггг
+      closeCalendar();
+    });
+  });
+}
+
+function openCalendar() {
+  calPopup.classList.add('is-open');
+  calPopup.setAttribute('aria-hidden', 'false');
+  renderCalendar();
+}
+
+function closeCalendar() {
+  calPopup.classList.remove('is-open');
+  calPopup.setAttribute('aria-hidden', 'true');
+}
+
+// Открываем по клику на поле
+dateDisplay.addEventListener('click', () => {
+  calPopup.classList.contains('is-open') ? closeCalendar() : openCalendar();
+});
+
+// Закрываем по клику вне обёртки
+document.addEventListener('click', e => {
+  if (!document.getElementById('date-wrapper').contains(e.target)) closeCalendar();
+});
+
+// Закрываем по Escape
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeCalendar();
+});
 
 /* =============================================
    ВИДЖЕТ ОНЛАЙН-КОНСУЛЬТАНТА

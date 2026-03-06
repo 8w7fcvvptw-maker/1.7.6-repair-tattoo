@@ -198,9 +198,14 @@
           </select>
           <span class="form__error" id="service-error"></span>
         </div>
-        <div class="form__group">
-          <label for="date" class="form__label">Желаемая дата</label>
-          <input type="date" id="date" name="date" class="form__input">
+        <div class="form__group" id="date-wrapper">
+          <label for="date-display" class="form__label">Желаемая дата</label>
+          <!-- Видимое поле: отображает дату в формате дд.мм.гггг, открывает календарь -->
+          <input type="text" id="date-display" class="form__input" placeholder="дд.мм.гггг" readonly>
+          <!-- Скрытое поле: хранит дату в формате YYYY-MM-DD для отправки -->
+          <input type="hidden" id="date" name="date">
+          <!-- Всплывающий кастомный календарь -->
+          <div class="cal-popup" id="cal-popup" aria-hidden="true"></div>
         </div>
         <div class="form__group form__group--full">
           <label for="message" class="form__label">Комментарий</label>
