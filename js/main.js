@@ -483,3 +483,54 @@ faqItems.forEach((item) => {
     }
   });
 });
+
+/* =============================================
+   ВИДЖЕТ ИНТЕРЕСНЫХ ФАКТОВ
+   Управление открытием/закрытием попапа и аккордеоном
+   ============================================= */
+const factsWidget = document.getElementById('facts-widget');
+const factsBtn    = document.getElementById('facts-btn');
+const factsClose  = document.getElementById('facts-close');
+const factsItems  = document.querySelectorAll('.facts-list__item');
+
+// Открыть / закрыть попап
+function toggleFacts(forceOpen) {
+  const isOpen = factsWidget.classList.contains('is-open');
+  const shouldOpen = forceOpen !== undefined ? forceOpen : !isOpen;
+  factsWidget.classList.toggle('is-open', shouldOpen);
+  factsBtn.setAttribute('aria-expanded', String(shouldOpen));
+}
+
+factsBtn.addEventListener('click', () => toggleFacts());
+factsClose.addEventListener('click', () => toggleFacts(false));
+
+// Закрыть по клику вне виджета
+document.addEventListener('click', (e) => {
+  if (!factsWidget.contains(e.target)) {
+    toggleFacts(false);
+  }
+});
+
+// Закрыть по Escape
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') toggleFacts(false);
+});
+
+// Аккордеон фактов — открыть/закрыть описание
+factsItems.forEach((item) => {
+  item.addEventListener('click', () => {
+    const isActive = item.classList.contains('is-active');
+    // Закрываем все остальные
+    factsItems.forEach((i) => i.classList.remove('is-active'));
+    // Если не было активным — открываем
+    if (!isActive) item.classList.add('is-active');
+  });
+
+  // Поддержка клавиатуры (Enter / Space)
+  item.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      item.click();
+    }
+  });
+});
