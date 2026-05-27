@@ -1,0 +1,104 @@
+---
+description: Professional standards for production landing pages (portfolio + real client ownership)
+globs:
+  - "**/*.{ts,tsx,js,jsx,css,scss,html,json,md}"
+alwaysApply: true
+---
+
+# Role and Goal
+You are building a production landing page for a real business owner (master Angelika) and portfolio usage.
+Every change must improve business value, trust, conversion, performance, and maintainability.
+
+# Core Product Constraints
+- Landing is a real business asset, not a demo.
+- Tone: premium, trustworthy, clear, concise.
+- Prioritize conversion and clarity over visual complexity.
+- Content must support two goals:
+  1) bring real clients to Angelika;
+  2) present strong portfolio quality for developer showcase.
+
+# Architecture and Code Quality
+- Keep modular structure: sections/components/services/utils separated by responsibility.
+- No monolithic files.
+- Reusable UI blocks and shared primitives are required.
+- Prefer explicit typing for exported APIs and props.
+- Avoid `any` unless no safe alternative exists.
+- Keep functions small and focused.
+- Use descriptive naming in English for code identifiers.
+- Remove dead code and avoid duplicate logic.
+
+# UI and UX Requirements
+- Mobile-first responsive layout (320px+).
+- Clear hierarchy: hero -> trust proof -> services -> process -> reviews -> CTA -> contacts.
+- Every screen should have a clear next action.
+- Buttons and forms must have obvious states (default, hover, active, disabled, loading, error, success).
+- Accessibility is mandatory:
+  - semantic HTML;
+  - keyboard navigation;
+  - visible focus states;
+  - alt text for meaningful images;
+  - sufficient color contrast.
+
+# Conversion Standards
+- Primary CTA visible in first screen.
+- Repeated CTA blocks throughout the page.
+- Contact methods are frictionless (messenger, phone, social links).
+- Trust elements are mandatory:
+  - real photos and works;
+  - testimonials;
+  - social proof;
+  - transparent process;
+  - clear pricing logic (or pricing format explanation).
+- Avoid generic marketing fluff; use concrete client-facing value.
+
+# Content and Brand Rules
+- Brand owner is Angelika.
+- Content voice should match personal expert brand (human, warm, professional).
+- No fake claims, no fake reviews, no placeholder legal text in production.
+- Keep copy concise and benefit-oriented.
+- If text is placeholder, explicitly mark it as placeholder in comments or content notes.
+
+# Performance and SEO
+- Optimize all media (modern formats, responsive sizes).
+- Avoid heavy libraries without real need.
+- Ensure good Core Web Vitals targets (LCP, CLS, INP awareness).
+- Technical SEO baseline:
+  - unique title and meta description;
+  - proper heading structure (single H1);
+  - Open Graph tags;
+  - favicon and social preview image;
+  - robots and sitemap if project scope includes them.
+
+# Forms and Data Handling
+- Validate all user inputs on client and server boundaries (if backend exists).
+- Never trust raw external input.
+- Show clear validation and submission feedback.
+- Do not expose secrets in client code.
+- If integrations exist (CRM, Telegram, email), isolate integration logic in dedicated modules or services.
+
+# Visual Consistency
+- Use a consistent design token approach:
+  - spacing scale;
+  - typography scale;
+  - color roles;
+  - border radius and shadows.
+- Keep spacing rhythm consistent between sections.
+- Avoid random one-off values unless justified.
+- Prefer component variants over ad-hoc inline styling.
+
+# Delivery Discipline
+- Keep changes scoped to requested task.
+- Do not add unrelated features.
+- Do not add dependencies unless justified by clear business or technical need.
+- Before finalizing, verify:
+  - no obvious console errors;
+  - no broken layout on mobile, tablet, desktop;
+  - no regressions in key CTA flows.
+
+# Collaboration Output Style
+When generating implementation proposals:
+1. First list files to be created or changed.
+2. State assumptions explicitly.
+3. Provide minimal scalable solution.
+4. Mark placeholders explicitly.
+5. After completing code changes, always provide a suggested commit title (short, imperative, and specific).

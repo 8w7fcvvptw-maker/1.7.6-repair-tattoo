@@ -1,0 +1,72 @@
+---
+description: Content and tone rules for Angelika's production landing page
+globs:
+  - "**/*.{md,html,tsx,jsx,ts,js,json}"
+alwaysApply: true
+---
+
+# Brand Voice
+- Write as a personal expert brand: warm, confident, respectful, professional.
+- Keep copy human and natural, not corporate and not "AI sounding".
+- Avoid hype language, manipulative urgency, and empty slogans.
+- Use clear client-facing language with concrete value.
+
+# Audience and Intent
+- Primary audience: potential clients choosing a tattoo removal master.
+- Secondary audience: portfolio reviewers evaluating product quality.
+- Every section should answer one client doubt or move user to next action.
+
+# Messaging Priorities
+- Emphasize safety, hygiene, predictable process, and personal approach.
+- Explain results honestly: no unrealistic guarantees.
+- Keep expectations transparent (sessions, recovery, factors affecting outcome).
+- Prefer specifics over abstractions.
+
+# Page Narrative Structure
+- Hero: clear result + clear CTA + trust trigger.
+- Trust proof: qualifications, experience, process transparency.
+- Services: what is offered, who it is for, boundaries and contraindications.
+- Process: how appointment works step by step.
+- Reviews and cases: real social proof with context.
+- FAQ: remove objections before contact.
+- Contact CTA: simple next step with low friction.
+
+# CTA and Conversion Copy
+- CTA text should be action-oriented and specific.
+- Mention communication channels users already trust (messenger, phone, social).
+- Reduce friction in microcopy: explain what happens after submit.
+- Repeat CTA after major trust and value sections.
+
+# Trust and Ethics
+- Do not invent achievements, certificates, reviews, or numbers.
+- Do not use fake scarcity ("only today", "last chance") unless factually true.
+- If data is unknown, mark as placeholder clearly and request real value.
+- Keep legal and medical claims conservative and responsible.
+
+# Readability Rules
+- Keep paragraphs short (1-3 sentences).
+- Prefer short sentences and concrete nouns/verbs.
+- Use bullet lists for steps, benefits, contraindications, and FAQ answers.
+- Avoid repeating the same claim in multiple sections.
+
+# Bilingual and Localization Notes
+- Default copy language: Russian unless task explicitly requests another.
+- Keep terminology consistent across sections and forms.
+- If bilingual content is needed, keep message parity between languages.
+
+# Portfolio Presentation Rules
+- Content should demonstrate product thinking, not only visual polish.
+- Show clear business logic behind section order and wording.
+- Keep case descriptions realistic and verifiable.
+
+# Placeholder Policy
+- Any placeholder must be explicitly tagged as `PLACEHOLDER`.
+- For each placeholder, include a short note about required real input.
+- Never ship production content with unresolved placeholders.
+
+# Collaboration Output Style
+When generating landing copy or copy updates:
+1. List files to change first.
+2. State assumptions (audience, city, channels, offers).
+3. Provide concise, section-by-section text.
+4. Mark all unknowns as `PLACEHOLDER`.

@@ -1,0 +1,65 @@
+---
+description: UI system rules for production landing pages
+globs:
+  - "**/*.{html,css,scss,ts,tsx,js,jsx}"
+alwaysApply: true
+---
+
+# Design System Foundation
+- Use a token-first approach for colors, spacing, typography, radius, and shadows.
+- Prefer centralized variables over one-off hardcoded values.
+- Keep visual language consistent across all sections and components.
+
+# Layout and Grid
+- Use mobile-first responsive layout.
+- Keep content width constrained with consistent container behavior.
+- Maintain predictable vertical rhythm between sections.
+- Prefer simple, reusable layout primitives over custom per-section layout logic.
+
+# Typography
+- Keep a clear type scale with predictable heading/body hierarchy.
+- Use readable line length and line height for long text blocks.
+- Avoid decorative typography that reduces clarity.
+- Ensure headings communicate meaning, not only style.
+
+# Component Rules
+- Build reusable section-level components (hero, cards, FAQ items, CTA blocks, forms).
+- Prefer variants for state and context differences instead of duplicate components.
+- Keep component APIs explicit and minimal.
+- Avoid deeply nested component trees without clear benefit.
+
+# State and Interaction
+- Interactive elements must define states: default, hover, active, focus, disabled, loading.
+- Focus states must be clearly visible for keyboard users.
+- Motion should be subtle and purposeful; avoid distracting animations.
+- Respect reduced-motion preferences when adding animations.
+
+# Forms and Inputs
+- Keep labels explicit and error text actionable.
+- Use consistent spacing and alignment for input groups.
+- Do not rely on color alone to communicate validation state.
+- Submission feedback must be immediate and clear.
+
+# Media and Imagery
+- Use responsive images and avoid oversized assets.
+- Keep image framing and aspect-ratio style consistent in galleries/cases.
+- Alt text is required for meaningful images.
+- Decorative visuals should not compete with primary CTA and content clarity.
+
+# Accessibility Baseline
+- Use semantic HTML landmarks and proper heading order.
+- Ensure keyboard navigation works end-to-end.
+- Maintain color contrast suitable for body text and controls.
+- Avoid interaction patterns that depend only on hover.
+
+# Implementation Discipline
+- Keep styles modular and close to component boundaries where practical.
+- Avoid duplicate style blocks; extract shared utilities when repeated.
+- Do not introduce UI libraries unless required by scope.
+- Any visual deviation from system tokens should be explicitly justified.
+
+# QA Checklist for UI Changes
+- Verify mobile (320+), tablet, and desktop layouts.
+- Verify no horizontal overflow in key viewports.
+- Verify interactive states are visible and consistent.
+- Verify CTA prominence remains strong after UI updates.
