@@ -3,11 +3,38 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Тату-студия — запись на сеанс, портфолио работ, услуги и цены. Профессиональные татуировки любой сложности.">
-  <title>Anji Studio — Тату-студия | Запись на сеанс</title>
+
+  <!-- Primary SEO -->
+  <title>Анжелика — тату-мастер в Воронеже | Anji Studio</title>
+  <meta name="description" content="Авторские татуировки в Воронеже. Графика, реализм, минимализм, японский стиль. Мастер Анжелика — запись онлайн.">
+  <!-- PLACEHOLDER: вставить финальный URL после деплоя -->
+  <link rel="canonical" href="PLACEHOLDER_URL">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Анжелика — тату-мастер в Воронеже | Anji Studio">
+  <meta property="og:description" content="Авторские татуировки в Воронеже. Запись онлайн.">
+  <!-- PLACEHOLDER: нужна картинка 1200×630 WebP -->
+  <meta property="og:image" content="PLACEHOLDER_OG_IMAGE">
+  <!-- PLACEHOLDER: вставить финальный URL -->
+  <meta property="og:url" content="PLACEHOLDER_URL">
+  <meta property="og:locale" content="ru_RU">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Local SEO (Voronezh) -->
+  <meta name="geo.region" content="RU-VOR">
+  <meta name="geo.placename" content="Воронеж">
+
+  <!-- Favicon -->
+  <!-- PLACEHOLDER: нужны реальные файлы images/favicon.ico и images/apple-touch-icon.png (180×180) -->
+  <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -212,6 +239,13 @@
           <textarea id="message" name="message" class="form__input form__textarea" placeholder="Опишите вашу идею, желаемый стиль, размер и расположение..." rows="4"></textarea>
         </div>
         <div class="form__group form__group--full">
+          <label class="form__checkbox">
+            <input type="checkbox" id="consent" name="consent" required>
+            <span>Я согласен(а) на <a href="privacy.html" target="_blank" class="form__link">обработку персональных данных</a></span>
+          </label>
+          <span class="form__error" id="consent-error"></span>
+        </div>
+        <div class="form__group form__group--full">
           <button type="submit" class="btn btn--primary btn--full" id="submit-btn">Отправить заявку</button>
         </div>
       </form>
@@ -235,18 +269,22 @@
       </div>
       <div class="footer__contacts">
         <h4>Контакты</h4>
-        <a href="tel:+79991234567" class="footer__link">+7 (999) 123-45-67</a>
-        <a href="mailto:info@inkstudio.ru" class="footer__link">info@inkstudio.ru</a>
+        <!-- PLACEHOLDER: вставить реальный телефон -->
+        <a href="tel:PLACEHOLDER" class="footer__link">+7 (___) ___-__-__</a>
+        <!-- PLACEHOLDER: вставить реальный email или удалить строку -->
+        <a href="mailto:PLACEHOLDER" class="footer__link">PLACEHOLDER@email.ru</a>
       </div>
       <div class="footer__social">
         <h4>Мы в соцсетях</h4>
         <div class="footer__social-links">
-          <a href="https://t.me" target="_blank" rel="noopener" class="social-link" aria-label="Telegram">
+          <!-- проверить актуальность username @anjistudio -->
+          <a href="https://t.me/anjistudio" target="_blank" rel="noopener" class="social-link" aria-label="Telegram">
             <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
               <path d="M11.944 0A12 12 0 000 12a12 12 0 0012 12 12 12 0 0012-12A12 12 0 0012 0a12 12 0 00-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 01.171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
             </svg>
           </a>
-          <a href="https://vk.com" target="_blank" rel="noopener" class="social-link" aria-label="ВКонтакте">
+          <!-- PLACEHOLDER: вставить реальную ссылку на страницу VK -->
+          <a href="https://vk.com/PLACEHOLDER" target="_blank" rel="noopener" class="social-link" aria-label="ВКонтакте">
             <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
               <path d="M15.684 0H8.316C1.592 0 0 1.592 0 8.316v7.368C0 22.408 1.592 24 8.316 24h7.368C22.408 24 24 22.408 24 15.684V8.316C24 1.592 22.391 0 15.684 0zm3.692 17.123h-1.744c-.66 0-.864-.525-2.05-1.727-1.033-1-1.49-1.135-1.744-1.135-.356 0-.458.102-.458.593v1.575c0 .424-.135.678-1.253.678-1.846 0-3.896-1.12-5.339-3.202-2.17-3.042-2.763-5.32-2.763-5.778 0-.254.102-.491.593-.491h1.744c.44 0 .61.203.78.678.864 2.49 2.303 4.675 2.896 4.675.22 0 .322-.102.322-.66V9.721c-.068-1.186-.695-1.287-.695-1.71 0-.203.17-.407.44-.407h2.744c.373 0 .508.203.508.643v3.473c0 .372.17.508.271.508.22 0 .407-.136.813-.542 1.254-1.406 2.151-3.574 2.151-3.574.119-.254.322-.491.763-.491h1.744c.525 0 .644.27.525.643-.22 1.017-2.354 4.031-2.354 4.031-.186.305-.254.44 0 .78.186.254.796.779 1.203 1.253.745.847 1.32 1.558 1.473 2.05.17.49-.085.744-.576.744z"/>
             </svg>
@@ -323,72 +361,31 @@
     </button>
   </div>
 
-  <!-- Интересные факты о тату -->
-  <div class="facts-widget" id="facts-widget">
-    <div class="facts-popup" id="facts-popup" role="dialog" aria-modal="true" aria-label="Интересные факты о тату">
-      <div class="facts-popup__header">
-        <h2 class="facts-popup__title">Интересные факты о тату</h2>
-        <button class="facts-popup__close" id="facts-close" aria-label="Закрыть">&times;</button>
-      </div>
-      <div class="facts-popup__body">
-        <ul class="facts-list">
-          <li class="facts-list__item" tabindex="0">
-            <span class="facts-list__emoji">🌍</span>
-            <div class="facts-list__content">
-              <h3>История татуировки в разных культурах</h3>
-              <p>Татуировки существуют в культурах по всему миру тысячелетиями — от полинезийцев до японцев, от кельтов до майя. Каждая культура придавала им свой смысл и значение.</p>
-            </div>
-          </li>
-          <li class="facts-list__item" tabindex="0">
-            <span class="facts-list__emoji">⛰️</span>
-            <div class="facts-list__content">
-              <h3>Самая старая татуировка в мире</h3>
-              <p>Самую старую известную татуировку обнаружили на мумии Ötzi из Альп — ей более 5300 лет! На его теле было 61 татуировка, предположительно сделанные в лечебных целях.</p>
-            </div>
-          </li>
-          <li class="facts-list__item" tabindex="0">
-            <span class="facts-list__emoji">🔬</span>
-            <div class="facts-list__content">
-              <h3>Как работает татуировка на молекулярном уровне</h3>
-              <p>Краска вводится в дерму — второй слой кожи. Организм воспринимает её как чужеродное вещество, и макрофаги обволакивают частицы краски, делая их постоянной частью вашей кожи.</p>
-            </div>
-          </li>
-          <li class="facts-list__item" tabindex="0">
-            <span class="facts-list__emoji">⭐</span>
-            <div class="facts-list__content">
-              <h3>Знаменитые люди с татуировками</h3>
-              <p>Среди знаменитостей с татуировками: Дэвид Бекхэм (61 тату), Джонни Депп, Анджелина Джоли, Дуэйн «The Rock» Джонсон. В США около 46% молодых людей имеют хотя бы одну тату.</p>
-            </div>
-          </li>
-          <li class="facts-list__item" tabindex="0">
-            <span class="facts-list__emoji">📏</span>
-            <div class="facts-list__content">
-              <h3>Самая большая и самая маленькая татуировка</h3>
-              <p>Самую большую татуировку в мире сделали Lee Weir из Австралии — она покрывает 98.8% его тела! А самая маленькая видимая тату может быть размером с рисовое зёрнышко.</p>
-            </div>
-          </li>
-          <li class="facts-list__item" tabindex="0">
-            <span class="facts-list__emoji">🎨</span>
-            <div class="facts-list__content">
-              <h3>Почему разные люди делают татуировки</h3>
-              <p>Люди делают татуировки по разным причинам: самовыражение, память о важных моментах, духовные убеждения, культурные традиции или просто потому что нравится искусство на коже.</p>
-            </div>
-          </li>
-          <li class="facts-list__item" tabindex="0">
-            <span class="facts-list__emoji">🔄</span>
-            <div class="facts-list__content">
-              <h3>Временные vs постоянные татуировки</h3>
-              <p>Временные тату держатся 1–2 недели, хна-тату — 2–3 недели. Постоянные же остаются на всю жизнь, хотя современные методы (лазер) могут их удалить, но это долгий процесс.</p>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <button class="facts-btn" id="facts-btn" aria-label="Интересные факты" aria-expanded="false">
-      <span class="facts-btn__icon">💡</span>
-    </button>
-  </div>
-
   <script src="js/main.js"></script>
+
+  <!-- Structured Data: LocalBusiness -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Anji Studio",
+    "description": "Тату-студия мастера Анжелики в Воронеже",
+    "url": "PLACEHOLDER_URL",
+    "telephone": "PLACEHOLDER_PHONE",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "ул. Лётчика Щербакова, 10",
+      "addressLocality": "Воронеж",
+      "addressRegion": "RU-VOR",
+      "addressCountry": "RU"
+    },
+    "openingHours": "Mo-Sa 11:00-21:00",
+    "sameAs": [
+      "PLACEHOLDER_TELEGRAM",
+      "PLACEHOLDER_VK"
+    ],
+    "priceRange": "₽₽"
+  }
+  </script>
 </body>
 </html>

@@ -1,11 +1,4 @@
 /* =============================================
-   НАСТРОЙКА — замените на свои значения
-   Как получить токен и chat_id — читай README.md
-   ============================================= */
-const TELEGRAM_BOT_TOKEN = 'YOUR_BOT_TOKEN'; // токен от @BotFather
-const TELEGRAM_CHAT_ID   = 'YOUR_CHAT_ID';   // ваш числовой id в Telegram
-
-/* =============================================
    ПОЛУЧАЕМ ЭЛЕМЕНТЫ СО СТРАНИЦЫ
    Мы обращаемся к HTML-элементам по их id,
    чтобы потом управлять ими из JavaScript.
@@ -190,9 +183,13 @@ const validators = {
     if (!value) return 'Выберите услугу';
     return '';
   },
+  consent: () => {
+    const checkbox = document.getElementById('consent');
+    return checkbox && checkbox.checked ? '' : 'Необходимо согласие на обработку данных';
+  },
 };
 
-const FORM_FIELDS = Object.keys(validators);
+const FORM_FIELDS = Object.keys(validators).filter(f => f !== 'consent');
 
 // Показываем или убираем ошибку под полем
 function showError(fieldId, message) {
@@ -210,11 +207,18 @@ function showError(fieldId, message) {
 // Проверяем всю форму, возвращаем true если всё ок
 function validateForm() {
   let isValid = true;
-  for (const [field, validate] of Object.entries(validators)) {
-    const error = validate(document.getElementById(field).value);
+
+  for (const field of FORM_FIELDS) {
+    const error = validators[field](document.getElementById(field).value);
     showError(field, error);
     if (error) isValid = false;
   }
+
+  // Отдельная проверка чекбокса согласия
+  const consentError = validators.consent();
+  showError('consent', consentError);
+  if (consentError) isValid = false;
+
   return isValid;
 }
 
@@ -226,57 +230,62 @@ FORM_FIELDS.forEach(fieldId => {
 });
 
 /* =============================================
-   ОТПРАВКА ЗАЯВКИ В TELEGRAM
-   Формируем текст сообщения и отправляем через
-   Telegram Bot API. Токен и chat_id — вверху файла.
+   ОТПРАВКА ЗАЯВКИ — через серверную функцию /api/send
+   Токен и chat_id хранятся в env-переменных на сервере.
+   Клиентский код не имеет доступа к секретам.
    ============================================= */
-const SERVICE_LABELS = {
-  tattoo:     'Татуировка',
-  coverup:    'Перекрытие',
-  correction: 'Коррекция',
-  sketch:     'Разработка эскиза',
-};
 
-async function sendToTelegram(data) {
-  // Собираем текст сообщения (пустые поля пропускаем через .filter(Boolean))
-  const text = [
-    '📋 *Новая заявка на запись*',
-    '',
-    `👤 *Имя:* ${data.name}`,
-    `📞 *Телефон:* ${data.phone}`,
-    `🔧 *Услуга:* ${SERVICE_LABELS[data.service] || data.service}`,
-    data.date    ? `📅 *Дата:* ${data.date}` : '',
-    data.message ? `💬 *Комментарий:* ${data.message}` : '',
-  ].filter(Boolean).join('\n');
+/**
+ * Отправить данные формы на серверную функцию /api/send.
+ * @param {object} data
+ * @returns {Promise<void>}
+ * @throws {Error} если сервер вернул ошибку или недоступен
+ */
+async function submitBookingForm(data) {
+  const response = await fetch('/api/send', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  });
 
-  const response = await fetch(
-    `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`,
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        chat_id:    TELEGRAM_CHAT_ID,
-        text,
-        parse_mode: 'Markdown',
-      }),
-    }
-  );
+  if (!response.ok) {
+    const body = await response.json().catch(() => ({}));
+    throw new Error(body.error || `HTTP ${response.status}`);
+  }
+}
 
-  if (!response.ok) throw new Error('Telegram API error');
-  return response.json();
+/**
+ * Показать fallback с кнопкой «Написать в Telegram»,
+ * если серверная функция недоступна.
+ */
+function showFallback() {
+  const existing = document.getElementById('booking-fallback');
+  if (existing) return;
+
+  const fallback = document.createElement('div');
+  fallback.id = 'booking-fallback';
+  fallback.className = 'booking__fallback';
+  fallback.innerHTML = `
+    <p class="booking__fallback-text">Не удалось отправить заявку через форму.</p>
+    <!-- PLACEHOLDER: вставить реальную ссылку на Telegram -->
+    <a href="https://t.me/anjistudio" target="_blank" rel="noopener" class="btn btn--primary">
+      Написать в Telegram
+    </a>
+  `;
+  bookingForm.insertAdjacentElement('afterend', fallback);
 }
 
 // Обработка отправки формы
 bookingForm.addEventListener('submit', async e => {
-  e.preventDefault(); // не перезагружаем страницу
+  e.preventDefault();
 
-  if (!validateForm()) return; // стоп, если есть ошибки
+  if (!validateForm()) return;
 
   const formData = {
     name:    document.getElementById('name').value.trim(),
     phone:   document.getElementById('phone').value.trim(),
     service: document.getElementById('service').value,
-    date:    dateDisplay.value, // формат дд.мм.гггг из видимого поля
+    date:    dateDisplay.value,
     message: document.getElementById('message').value.trim(),
   };
 
@@ -284,11 +293,11 @@ bookingForm.addEventListener('submit', async e => {
   submitBtn.textContent = 'Отправка...';
 
   try {
-    await sendToTelegram(formData);
+    await submitBookingForm(formData);
     bookingForm.style.display = 'none';
-    bookingSuccess.classList.add('show'); // показываем сообщение «Заявка отправлена!»
+    bookingSuccess.classList.add('show');
   } catch {
-    alert('Не удалось отправить заявку. Пожалуйста, свяжитесь с нами по телефону.');
+    showFallback();
   } finally {
     submitBtn.disabled    = false;
     submitBtn.textContent = 'Отправить заявку';
@@ -484,53 +493,3 @@ faqItems.forEach((item) => {
   });
 });
 
-/* =============================================
-   ВИДЖЕТ ИНТЕРЕСНЫХ ФАКТОВ
-   Управление открытием/закрытием попапа и аккордеоном
-   ============================================= */
-const factsWidget = document.getElementById('facts-widget');
-const factsBtn    = document.getElementById('facts-btn');
-const factsClose  = document.getElementById('facts-close');
-const factsItems  = document.querySelectorAll('.facts-list__item');
-
-// Открыть / закрыть попап
-function toggleFacts(forceOpen) {
-  const isOpen = factsWidget.classList.contains('is-open');
-  const shouldOpen = forceOpen !== undefined ? forceOpen : !isOpen;
-  factsWidget.classList.toggle('is-open', shouldOpen);
-  factsBtn.setAttribute('aria-expanded', String(shouldOpen));
-}
-
-factsBtn.addEventListener('click', () => toggleFacts());
-factsClose.addEventListener('click', () => toggleFacts(false));
-
-// Закрыть по клику вне виджета
-document.addEventListener('click', (e) => {
-  if (!factsWidget.contains(e.target)) {
-    toggleFacts(false);
-  }
-});
-
-// Закрыть по Escape
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') toggleFacts(false);
-});
-
-// Аккордеон фактов — открыть/закрыть описание
-factsItems.forEach((item) => {
-  item.addEventListener('click', () => {
-    const isActive = item.classList.contains('is-active');
-    // Закрываем все остальные
-    factsItems.forEach((i) => i.classList.remove('is-active'));
-    // Если не было активным — открываем
-    if (!isActive) item.classList.add('is-active');
-  });
-
-  // Поддержка клавиатуры (Enter / Space)
-  item.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      item.click();
-    }
-  });
-});

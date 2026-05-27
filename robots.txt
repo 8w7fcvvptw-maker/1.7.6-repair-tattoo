@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+# PLACEHOLDER: вставить финальный URL после деплоя
+Sitemap: PLACEHOLDER_URL/sitemap.xml
