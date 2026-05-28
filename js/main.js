@@ -431,3 +431,53 @@ function updateFloatingCta() {
 
 updateFloatingCta();
 MOBILE_MQ.addEventListener('change', updateFloatingCta);
+
+/* ===== ATMOSPHERE VIDEO (lazy load + play) ===== */
+const atmosphereVideo = document.getElementById('atmosphere-video');
+const atmosphereFrame = document.querySelector('.atmosphere__frame');
+
+if (atmosphereVideo && atmosphereFrame) {
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function playAtmosphereVideo() {
+    if (prefersReducedMotion) return;
+    atmosphereVideo.preload = 'auto';
+    const playPromise = atmosphereVideo.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(() => {});
+    }
+  }
+
+  function pauseAtmosphereVideo() {
+    if (!atmosphereVideo.paused) atmosphereVideo.pause();
+  }
+
+  const videoObserver = new IntersectionObserver(
+    entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          playAtmosphereVideo();
+        } else {
+          pauseAtmosphereVideo();
+        }
+      });
+    },
+    { threshold: 0.2, rootMargin: '80px 0px' }
+  );
+
+  videoObserver.observe(atmosphereFrame);
+
+  const frameObserver = new IntersectionObserver(
+    entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          atmosphereFrame.classList.add('visible');
+          frameObserver.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.15 }
+  );
+
+  frameObserver.observe(atmosphereFrame);
+}

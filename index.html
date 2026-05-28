@@ -113,6 +113,36 @@
       </a>
     </section>
 
+    <!-- Atmosphere / Process video -->
+    <section class="atmosphere" id="atmosphere" aria-label="Процесс работы мастера">
+      <div class="container">
+        <div class="atmosphere__frame fade-in">
+          <div class="atmosphere__media">
+            <video
+              class="atmosphere__video"
+              id="atmosphere-video"
+              muted
+              loop
+              playsinline
+              autoplay
+              preload="none"
+              poster="images/master-photo.png"
+              aria-hidden="true"
+              disablePictureInPicture
+              disableremoteplayback
+            >
+              <source src="videos/process.mp4" type="video/mp4">
+            </video>
+            <div class="atmosphere__overlay" aria-hidden="true"></div>
+            <div class="atmosphere__label">
+              <span class="atmosphere__eyebrow">Атмосфера сеанса</span>
+              <p class="atmosphere__caption">Живой процесс — аккуратная работа в комфортной обстановке</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <div class="section-divider" aria-hidden="true"></div>
 
     <!-- VK Promo -->
@@ -442,29 +472,32 @@
           <h2 class="section__title">Что говорят клиенты</h2>
         </div>
         <div class="reviews__grid">
-          <!-- PLACEHOLDER: заменить на реальные отзывы от клиентов -->
           <blockquote class="review-card glass fade-in">
+            <svg class="review-card__quote" viewBox="0 0 32 32" width="28" height="28" aria-hidden="true">
+              <path d="M8 18c0-3.3 2.7-6 6-6V8C8.1 8 4 12.1 4 17v7h8v-6H8zm16 0c0-3.3 2.7-6 6-6V8c-5.9 0-10 4.1-10 9v7h8v-6h-4z" fill="currentColor" opacity="0.35"/>
+            </svg>
             <div class="review-card__stars" aria-label="5 из 5">★★★★★</div>
-            <p class="review-card__text">«PLACEHOLDER: вставить реальный отзыв клиента — атмосфера, аккуратность, комфорт на сеансе»</p>
+            <p class="review-card__text">Очень комфортная атмосфера и аккуратная работа. Помогла подобрать идею и всё подробно объяснила. Во время сеанса угощали чаем, дали инструкцию по заживлению и постоянно интересовались, комфортно ли мне. Тату заживает отлично, обязательно приду ещё.</p>
             <footer class="review-card__author">
-              <span class="review-card__name">Алина</span>
-              <span class="review-card__meta">Минимализм, предплечье</span>
+              <div class="review-card__avatar" aria-hidden="true">А</div>
+              <div class="review-card__author-info">
+                <cite class="review-card__name">Артём</cite>
+                <span class="review-card__meta">Клиент</span>
+              </div>
             </footer>
           </blockquote>
           <blockquote class="review-card glass fade-in">
+            <svg class="review-card__quote" viewBox="0 0 32 32" width="28" height="28" aria-hidden="true">
+              <path d="M8 18c0-3.3 2.7-6 6-6V8C8.1 8 4 12.1 4 17v7h8v-6H8zm16 0c0-3.3 2.7-6 6-6V8c-5.9 0-10 4.1-10 9v7h8v-6h-4z" fill="currentColor" opacity="0.35"/>
+            </svg>
             <div class="review-card__stars" aria-label="5 из 5">★★★★★</div>
-            <p class="review-card__text">«PLACEHOLDER: вставить реальный отзыв клиента — помощь с эскизом, результат»</p>
+            <p class="review-card__text">Переживала перед первой татуировкой, но всё прошло спокойно и комфортно 🖤 Очень лёгкая рука, аккуратные линии и приятная атмосфера во время сеанса. Всё сделали довольно быстро, а после дали понятные рекомендации по уходу.</p>
             <footer class="review-card__author">
-              <span class="review-card__name">Кирилл</span>
-              <span class="review-card__meta">Графика, плечо</span>
-            </footer>
-          </blockquote>
-          <blockquote class="review-card glass fade-in">
-            <div class="review-card__stars" aria-label="5 из 5">★★★★★</div>
-            <p class="review-card__text">«PLACEHOLDER: вставить реальный отзыв клиента — стерильность, общение, итог»</p>
-            <footer class="review-card__author">
-              <span class="review-card__name">Мария</span>
-              <span class="review-card__meta">Флора, запястье</span>
+              <div class="review-card__avatar" aria-hidden="true">К</div>
+              <div class="review-card__author-info">
+                <cite class="review-card__name">Карина</cite>
+                <span class="review-card__meta">Первая тату</span>
+              </div>
             </footer>
           </blockquote>
         </div>

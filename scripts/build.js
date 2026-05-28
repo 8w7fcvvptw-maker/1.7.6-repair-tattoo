@@ -25,6 +25,7 @@ const REQUIRED_FILES = [
   'images/work-8.png',
   'images/work-9.png',
   'images/work-10.png',
+  'videos/process.mp4',
 ];
 
 const VK_BOOKING_URL = 'https://vk.com/anjelika_tattoo_vrn';
@@ -101,6 +102,8 @@ const seoChecks = [
   { name: 'OG image', pattern: /property="og:image" content="PLACEHOLDER_URL\/images\/og-image\.png"/ },
   { name: 'Twitter card', pattern: /name="twitter:card" content="summary_large_image"/ },
   { name: 'Aftercare section', pattern: /id="aftercare"/ },
+  { name: 'Atmosphere video', pattern: /id="atmosphere"/ },
+  { name: 'Real reviews', pattern: /review-card__name">Артём/ },
   { name: 'Floating CTA', pattern: /id="floating-cta"/ },
   { name: 'ProfessionalService schema', pattern: /"@type": "ProfessionalService"/ },
 ];
