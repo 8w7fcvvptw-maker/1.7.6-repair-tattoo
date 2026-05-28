@@ -84,6 +84,7 @@ const bookingChecks = [
   { name: 'Hero CTA', url: extractHrefFromSection(indexHtml, 'hero__actions', 'btn--primary') },
   { name: 'About CTA', url: extractHrefFromTag(indexHtml, 'about__cta') },
   { name: 'Final CTA', url: extractHrefFromSection(indexHtml, 'cta__actions', 'btn--primary') },
+  { name: 'Floating CTA', url: extractHrefFromTag(indexHtml, 'floating-cta__btn') },
 ];
 
 for (const { name, url } of bookingChecks) {
@@ -92,6 +93,22 @@ for (const { name, url } of bookingChecks) {
 }
 
 ok('All booking CTAs point to VK');
+
+const seoChecks = [
+  { name: 'Meta title', pattern: /<title>Тату мастер Анжелика в Воронеже/ },
+  { name: 'Meta description', pattern: /name="description" content="Аккуратные тату в Воронеже/ },
+  { name: 'OG title', pattern: /property="og:title" content="Тату мастер Анжелика/ },
+  { name: 'OG image', pattern: /property="og:image" content="PLACEHOLDER_URL\/images\/og-image\.png"/ },
+  { name: 'Twitter card', pattern: /name="twitter:card" content="summary_large_image"/ },
+  { name: 'Aftercare section', pattern: /id="aftercare"/ },
+  { name: 'Floating CTA', pattern: /id="floating-cta"/ },
+  { name: 'ProfessionalService schema', pattern: /"@type": "ProfessionalService"/ },
+];
+
+for (const { name, pattern } of seoChecks) {
+  if (!pattern.test(indexHtml)) fail(`SEO check failed: ${name}`);
+  ok(`SEO: ${name}`);
+}
 
 if (!indexHtml.includes('css/style.css')) fail('Missing css/style.css link');
 if (!indexHtml.includes('js/main.js')) fail('Missing js/main.js script');

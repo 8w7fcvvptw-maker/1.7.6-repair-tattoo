@@ -417,3 +417,17 @@ document.addEventListener('click', e => {
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') closeCalendar();
 });
+
+/* ===== FLOATING MOBILE CTA ===== */
+const floatingCta = document.getElementById('floating-cta');
+const MOBILE_MQ = window.matchMedia('(max-width: 768px)');
+
+function updateFloatingCta() {
+  if (!floatingCta) return;
+  const isMobile = MOBILE_MQ.matches;
+  document.body.classList.toggle('has-floating-cta', isMobile);
+  floatingCta.setAttribute('aria-hidden', String(!isMobile));
+}
+
+updateFloatingCta();
+MOBILE_MQ.addEventListener('change', updateFloatingCta);
