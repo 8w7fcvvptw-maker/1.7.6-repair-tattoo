@@ -1,67 +1,59 @@
-/* =============================================
-   ПОЛУЧАЕМ ЭЛЕМЕНТЫ СО СТРАНИЦЫ
-   Мы обращаемся к HTML-элементам по их id,
-   чтобы потом управлять ими из JavaScript.
-   ============================================= */
-const header       = document.getElementById('header');
-const burger       = document.getElementById('burger');        // кнопка-гамбургер (мобилка)
-const nav          = document.getElementById('nav');           // мобильное меню
-const navLinks     = document.querySelectorAll('.nav__link');  // все ссылки в меню
-const bookingForm  = document.getElementById('booking-form'); // форма записи
-const bookingSuccess = document.getElementById('booking-success'); // сообщение об успехе
-const submitBtn    = document.getElementById('submit-btn');   // кнопка «Отправить»
+/* ===== DOM REFERENCES ===== */
+const header         = document.getElementById('header');
+const burger         = document.getElementById('burger');
+const nav            = document.getElementById('nav');
+const navLinks       = document.querySelectorAll('.nav__link');
+const bookingForm    = document.getElementById('booking-form');
+const bookingSuccess = document.getElementById('booking-success');
+const submitBtn      = document.getElementById('submit-btn');
 
-// Элементы лайтбокса (увеличенный просмотр фото портфолио)
-const lightbox      = document.getElementById('lightbox');
-const lightboxImg   = document.getElementById('lightbox-img');
-const lightboxClose = document.getElementById('lightbox-close');
-const lightboxPrev  = document.getElementById('lightbox-prev');
-const lightboxNext  = document.getElementById('lightbox-next');
-const portfolioItems = document.querySelectorAll('.portfolio__item');
+const lightbox       = document.getElementById('lightbox');
+const lightboxImg    = document.getElementById('lightbox-img');
+const lightboxClose  = document.getElementById('lightbox-close');
+const lightboxPrev   = document.getElementById('lightbox-prev');
+const lightboxNext   = document.getElementById('lightbox-next');
+const portfolioGrid  = document.querySelector('.portfolio__grid');
+const portfolioFilters = document.querySelectorAll('.portfolio__filter');
 
-// Собираем пути к картинкам портфолио в массив для переключения в лайтбоксе
+let portfolioItems   = document.querySelectorAll('.portfolio__item:not(.is-hidden)');
 let currentImageIndex = 0;
-const portfolioImages = Array.from(portfolioItems).map(
-  item => item.querySelector('img').src
-);
+let portfolioImages  = [];
 
-/* =============================================
-   ШАПКА: подсветка при прокрутке
-   Когда пользователь листает страницу вниз,
-   добавляем класс .scrolled — шапка становится
-   чуть темнее (см. стили .header.scrolled).
-   ============================================= */
+function refreshPortfolioItems() {
+  portfolioItems = document.querySelectorAll('.portfolio__item:not(.is-hidden)');
+  portfolioImages = Array.from(portfolioItems).map(
+    item => item.querySelector('img').src
+  );
+}
+
+refreshPortfolioItems();
+
+/* ===== HEADER SCROLL ===== */
 window.addEventListener('scroll', () => {
   header.classList.toggle('scrolled', window.scrollY > 50);
-}, { passive: true }); // passive: true — подсказка браузеру для плавности
+}, { passive: true });
 
-/* =============================================
-   МОБИЛЬНОЕ МЕНЮ (гамбургер)
-   По клику на иконку — открываем/закрываем меню.
-   Блокируем скролл страницы, пока меню открыто.
-   ============================================= */
+/* ===== MOBILE MENU ===== */
+function closeMobileNav() {
+  burger.classList.remove('active');
+  burger.setAttribute('aria-expanded', 'false');
+  nav.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
 burger.addEventListener('click', () => {
-  burger.classList.toggle('active'); // анимация X на кнопке
-  nav.classList.toggle('open');      // выезжает меню справа
-  document.body.style.overflow = nav.classList.contains('open') ? 'hidden' : '';
+  const isOpen = nav.classList.toggle('open');
+  burger.classList.toggle('active', isOpen);
+  burger.setAttribute('aria-expanded', String(isOpen));
+  document.body.style.overflow = isOpen ? 'hidden' : '';
 });
 
-// По клику на любую ссылку в меню — закрываем его
 navLinks.forEach(link => {
-  link.addEventListener('click', () => {
-    burger.classList.remove('active');
-    nav.classList.remove('open');
-    document.body.style.overflow = '';
-  });
+  link.addEventListener('click', closeMobileNav);
 });
 
-/* =============================================
-   АКТИВНАЯ ССЫЛКА В МЕНЮ
-   IntersectionObserver следит, какая секция
-   сейчас в центре экрана, и подсвечивает
-   соответствующую ссылку в навигации.
-   ============================================= */
-const sections = document.querySelectorAll('.section');
+/* ===== ACTIVE NAV LINK ===== */
+const navSections = document.querySelectorAll('section[id]');
 
 const navObserver = new IntersectionObserver(
   entries => {
@@ -69,24 +61,17 @@ const navObserver = new IntersectionObserver(
       if (entry.isIntersecting) {
         const id = entry.target.id;
         navLinks.forEach(link => {
-          // Добавляем .active той ссылке, чей href совпадает с id секции
           link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
         });
       }
     });
   },
-  { rootMargin: '-40% 0px -60% 0px' } // секция считается «активной» в средней части экрана
+  { rootMargin: '-40% 0px -60% 0px' }
 );
 
-sections.forEach(section => navObserver.observe(section));
+navSections.forEach(section => navObserver.observe(section));
 
-/* =============================================
-   АНИМАЦИЯ ПОЯВЛЕНИЯ ЭЛЕМЕНТОВ
-   Все элементы с классом .fade-in изначально
-   прозрачны (opacity: 0 в CSS). Когда они
-   появляются в поле зрения — добавляем .visible
-   и они плавно проявляются.
-   ============================================= */
+/* ===== SCROLL ANIMATIONS ===== */
 const fadeElements = document.querySelectorAll('.fade-in');
 
 const fadeObserver = new IntersectionObserver(
@@ -94,28 +79,45 @@ const fadeObserver = new IntersectionObserver(
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('visible');
-        fadeObserver.unobserve(entry.target); // больше не следим — анимация одноразовая
+        fadeObserver.unobserve(entry.target);
       }
     });
   },
-  { threshold: 0.15 } // элемент должен быть виден хотя бы на 15%
+  { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
 );
 
 fadeElements.forEach(el => fadeObserver.observe(el));
 
-/* =============================================
-   ЛАЙТБОКС — увеличенный просмотр портфолио
-   openLightbox(index) — открывает фото по номеру
-   closeLightbox()     — закрывает
-   showPrevImage()     — предыдущее фото
-   showNextImage()     — следующее фото
-   ============================================= */
+/* ===== PORTFOLIO FILTER ===== */
+portfolioFilters.forEach(filterBtn => {
+  filterBtn.addEventListener('click', () => {
+    const filter = filterBtn.dataset.filter;
+
+    portfolioFilters.forEach(btn => {
+      const isActive = btn === filterBtn;
+      btn.classList.toggle('is-active', isActive);
+      btn.setAttribute('aria-selected', String(isActive));
+    });
+
+    document.querySelectorAll('.portfolio__item').forEach(item => {
+      const category = item.dataset.category;
+      const show = filter === 'all' || category === filter;
+      item.classList.toggle('is-hidden', !show);
+    });
+
+    refreshPortfolioItems();
+    bindPortfolioClicks();
+  });
+});
+
+/* ===== LIGHTBOX ===== */
 function openLightbox(index) {
+  if (!portfolioImages.length) return;
   currentImageIndex = index;
   lightboxImg.src = portfolioImages[index];
   lightboxImg.alt = portfolioItems[index].querySelector('img').alt;
   lightbox.classList.add('active');
-  document.body.style.overflow = 'hidden'; // запрещаем скролл фона
+  document.body.style.overflow = 'hidden';
 }
 
 function closeLightbox() {
@@ -124,33 +126,35 @@ function closeLightbox() {
 }
 
 function showPrevImage() {
-  // % (остаток от деления) — чтобы зациклить: после первого — последнее
+  if (!portfolioImages.length) return;
   currentImageIndex = (currentImageIndex - 1 + portfolioImages.length) % portfolioImages.length;
   lightboxImg.src = portfolioImages[currentImageIndex];
+  lightboxImg.alt = portfolioItems[currentImageIndex].querySelector('img').alt;
 }
 
 function showNextImage() {
+  if (!portfolioImages.length) return;
   currentImageIndex = (currentImageIndex + 1) % portfolioImages.length;
   lightboxImg.src = portfolioImages[currentImageIndex];
+  lightboxImg.alt = portfolioItems[currentImageIndex].querySelector('img').alt;
 }
 
-// Клик на карточку портфолио
-portfolioItems.forEach(item => {
-  item.addEventListener('click', () => {
-    openLightbox(parseInt(item.dataset.index, 10));
+function bindPortfolioClicks() {
+  portfolioItems.forEach((item, index) => {
+    item.onclick = () => openLightbox(index);
   });
-});
+}
+
+bindPortfolioClicks();
 
 lightboxClose.addEventListener('click', closeLightbox);
 lightboxPrev.addEventListener('click', showPrevImage);
 lightboxNext.addEventListener('click', showNextImage);
 
-// Клик на затемнённый фон — закрываем
 lightbox.addEventListener('click', e => {
   if (e.target === lightbox) closeLightbox();
 });
 
-// Клавиатурное управление лайтбоксом
 document.addEventListener('keydown', e => {
   if (!lightbox.classList.contains('active')) return;
   if (e.key === 'Escape')     closeLightbox();
@@ -158,11 +162,20 @@ document.addEventListener('keydown', e => {
   if (e.key === 'ArrowRight') showNextImage();
 });
 
-/* =============================================
-   ВАЛИДАЦИЯ ФОРМЫ
-   Функции проверки каждого поля.
-   Возвращают строку с ошибкой или '' (пусто = ок).
-   ============================================= */
+/* ===== FAQ ACCORDION (single open) ===== */
+const faqItems = document.querySelectorAll('.faq__item');
+
+faqItems.forEach(item => {
+  item.addEventListener('toggle', () => {
+    if (item.open) {
+      faqItems.forEach(other => {
+        if (other !== item) other.open = false;
+      });
+    }
+  });
+});
+
+/* ===== FORM VALIDATION ===== */
 const MIN_NAME_LENGTH = 2;
 const PHONE_REGEX = /^\+?\d{10,15}$/;
 
@@ -175,7 +188,7 @@ const validators = {
   },
   phone: value => {
     if (!value.trim()) return 'Введите номер телефона';
-    const cleaned = value.replace(/[\s\-\(\)]/g, ''); // убираем пробелы и скобки
+    const cleaned = value.replace(/[\s\-\(\)]/g, '');
     if (!PHONE_REGEX.test(cleaned)) return 'Введите корректный номер телефона';
     return '';
   },
@@ -191,7 +204,6 @@ const validators = {
 
 const FORM_FIELDS = Object.keys(validators).filter(f => f !== 'consent');
 
-// Показываем или убираем ошибку под полем
 function showError(fieldId, message) {
   const input = document.getElementById(fieldId);
   const error = document.getElementById(`${fieldId}-error`);
@@ -204,7 +216,6 @@ function showError(fieldId, message) {
   }
 }
 
-// Проверяем всю форму, возвращаем true если всё ок
 function validateForm() {
   let isValid = true;
 
@@ -214,7 +225,6 @@ function validateForm() {
     if (error) isValid = false;
   }
 
-  // Отдельная проверка чекбокса согласия
   const consentError = validators.consent();
   showError('consent', consentError);
   if (consentError) isValid = false;
@@ -222,25 +232,17 @@ function validateForm() {
   return isValid;
 }
 
-// Проверка поля в реальном времени (при вводе)
 FORM_FIELDS.forEach(fieldId => {
   document.getElementById(fieldId).addEventListener('input', e => {
     showError(fieldId, validators[fieldId](e.target.value));
   });
 });
 
-/* =============================================
-   ОТПРАВКА ЗАЯВКИ — через серверную функцию /api/send
-   Токен и chat_id хранятся в env-переменных на сервере.
-   Клиентский код не имеет доступа к секретам.
-   ============================================= */
+document.getElementById('consent').addEventListener('change', () => {
+  showError('consent', validators.consent());
+});
 
-/**
- * Отправить данные формы на серверную функцию /api/send.
- * @param {object} data
- * @returns {Promise<void>}
- * @throws {Error} если сервер вернул ошибку или недоступен
- */
+/* ===== FORM SUBMISSION ===== */
 async function submitBookingForm(data) {
   const response = await fetch('/api/send', {
     method: 'POST',
@@ -254,28 +256,21 @@ async function submitBookingForm(data) {
   }
 }
 
-/**
- * Показать fallback с кнопкой «Написать в Telegram»,
- * если серверная функция недоступна.
- */
 function showFallback() {
-  const existing = document.getElementById('booking-fallback');
-  if (existing) return;
+  if (document.getElementById('booking-fallback')) return;
 
   const fallback = document.createElement('div');
   fallback.id = 'booking-fallback';
   fallback.className = 'booking__fallback';
   fallback.innerHTML = `
     <p class="booking__fallback-text">Не удалось отправить заявку через форму.</p>
-    <!-- PLACEHOLDER: вставить реальную ссылку на Telegram -->
-    <a href="https://t.me/anjistudio" target="_blank" rel="noopener" class="btn btn--primary">
-      Написать в Telegram
+    <a href="https://vk.com/anjelika_tattoo_vrn" target="_blank" rel="noopener noreferrer" class="btn btn--primary">
+      Написать в VK
     </a>
   `;
   bookingForm.insertAdjacentElement('afterend', fallback);
 }
 
-// Обработка отправки формы
 bookingForm.addEventListener('submit', async e => {
   e.preventDefault();
 
@@ -289,7 +284,7 @@ bookingForm.addEventListener('submit', async e => {
     message: document.getElementById('message').value.trim(),
   };
 
-  submitBtn.disabled    = true;
+  submitBtn.disabled = true;
   submitBtn.textContent = 'Отправка...';
 
   try {
@@ -299,26 +294,20 @@ bookingForm.addEventListener('submit', async e => {
   } catch {
     showFallback();
   } finally {
-    submitBtn.disabled    = false;
+    submitBtn.disabled = false;
     submitBtn.textContent = 'Отправить заявку';
   }
 });
 
-/* =============================================
-   МАСКА НОМЕРА ТЕЛЕФОНА
-   Автоматически форматирует ввод в вид:
-   +7 (999) 123-45-67
-   ============================================= */
+/* ===== PHONE MASK ===== */
 const phoneInput = document.getElementById('phone');
 
 phoneInput.addEventListener('input', () => {
-  let val = phoneInput.value.replace(/\D/g, ''); // оставляем только цифры
+  let val = phoneInput.value.replace(/\D/g, '');
 
-  if (val.startsWith('8')) val = '7' + val.slice(1); // 8 → +7
-
+  if (val.startsWith('8')) val = '7' + val.slice(1);
   if (val.length === 0) { phoneInput.value = ''; return; }
 
-  // Собираем форматированную строку по частям
   let formatted = '+';
   if (val.length > 0) formatted += val.slice(0, 1);
   if (val.length > 1) formatted += ' (' + val.slice(1, 4);
@@ -329,43 +318,33 @@ phoneInput.addEventListener('input', () => {
   phoneInput.value = formatted;
 });
 
-/* =============================================
-   КАСТОМНЫЙ КАЛЕНДАРЬ ДЛЯ ПОЛЯ «ЖЕЛАЕМАЯ ДАТА»
-   Открывается по клику на поле, закрывается по
-   клику вне или после выбора даты.
-   Прошедшие даты недоступны.
-   ============================================= */
-const dateDisplay = document.getElementById('date-display'); // видимое поле
-const dateHidden  = document.getElementById('date');         // скрытое поле для отправки
-const calPopup    = document.getElementById('cal-popup');    // контейнер попапа
+/* ===== CUSTOM CALENDAR ===== */
+const dateDisplay = document.getElementById('date-display');
+const dateHidden  = document.getElementById('date');
+const calPopup    = document.getElementById('cal-popup');
 
-// Текущий месяц/год в попапе (стартуем с сегодняшнего)
 let calYear  = new Date().getFullYear();
-let calMonth = new Date().getMonth(); // 0–11
+let calMonth = new Date().getMonth();
 
-// Названия месяцев и дней недели
 const MONTH_NAMES = ['Январь','Февраль','Март','Апрель','Май','Июнь',
                      'Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
 const WEEK_DAYS   = ['Пн','Вт','Ср','Чт','Пт','Сб','Вс'];
 
-// Рендерим HTML-содержимое попапа для calYear / calMonth
 function renderCalendar() {
-  const today    = new Date(); today.setHours(0,0,0,0);
-  const selected = dateHidden.value; // 'YYYY-MM-DD' или ''
+  const today    = new Date(); today.setHours(0, 0, 0, 0);
+  const selected = dateHidden.value;
 
-  // Первый день месяца; getDay() → 0=вс..6=сб, переводим в пн=0..вс=6
   const firstDay = new Date(calYear, calMonth, 1);
-  let   startDow = firstDay.getDay(); // 0=вс
-  startDow = (startDow === 0) ? 6 : startDow - 1; // пн=0 … вс=6
+  let startDow = firstDay.getDay();
+  startDow = startDow === 0 ? 6 : startDow - 1;
 
   const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
 
-  // Шапка: кнопки навигации + месяц/год
   let html = `
     <div class="cal-header">
-      <button class="cal-nav" id="cal-prev" aria-label="Предыдущий месяц">&#8249;</button>
+      <button type="button" class="cal-nav" id="cal-prev" aria-label="Предыдущий месяц">&#8249;</button>
       <span class="cal-header__title">${MONTH_NAMES[calMonth]} ${calYear}</span>
-      <button class="cal-nav" id="cal-next" aria-label="Следующий месяц">&#8250;</button>
+      <button type="button" class="cal-nav" id="cal-next" aria-label="Следующий месяц">&#8250;</button>
     </div>
     <div class="cal-weekdays">
       ${WEEK_DAYS.map(d => `<span class="cal-weekday">${d}</span>`).join('')}
@@ -373,45 +352,44 @@ function renderCalendar() {
     <div class="cal-days">
   `;
 
-  // Пустые ячейки до первого числа
   for (let i = 0; i < startDow; i++) {
-    html += `<button class="cal-day" disabled></button>`;
+    html += `<button type="button" class="cal-day" disabled></button>`;
   }
 
-  // Ячейки с днями
   for (let d = 1; d <= daysInMonth; d++) {
-    const date    = new Date(calYear, calMonth, d);
-    const iso     = `${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const date   = new Date(calYear, calMonth, d);
+    const iso    = `${calYear}-${String(calMonth + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
     const isPast = date < today;
     const isTod  = date.getTime() === today.getTime();
     const isSel  = iso === selected;
 
-    html += `<button class="cal-day ${isTod ? 'is-today' : ''} ${isSel ? 'is-selected' : ''}"
+    html += `<button type="button" class="cal-day ${isTod ? 'is-today' : ''} ${isSel ? 'is-selected' : ''}"
                data-date="${iso}" ${isPast ? 'disabled' : ''}>${d}</button>`;
   }
 
   html += `</div>`;
   calPopup.innerHTML = html;
 
-  // Навигация по месяцам — e.stopPropagation() чтобы не закрыть попап
   document.getElementById('cal-prev').addEventListener('click', e => {
     e.stopPropagation();
-    calMonth--; if (calMonth < 0) { calMonth = 11; calYear--; }
-    renderCalendar();
-  });
-  document.getElementById('cal-next').addEventListener('click', e => {
-    e.stopPropagation();
-    calMonth++; if (calMonth > 11) { calMonth = 0; calYear++; }
+    calMonth--;
+    if (calMonth < 0) { calMonth = 11; calYear--; }
     renderCalendar();
   });
 
-  // Клик на день — выбираем дату
+  document.getElementById('cal-next').addEventListener('click', e => {
+    e.stopPropagation();
+    calMonth++;
+    if (calMonth > 11) { calMonth = 0; calYear++; }
+    renderCalendar();
+  });
+
   calPopup.querySelectorAll('.cal-day[data-date]').forEach(btn => {
     btn.addEventListener('click', () => {
-      const iso = btn.dataset.date;                          // YYYY-MM-DD
+      const iso = btn.dataset.date;
       const [y, m, day] = iso.split('-');
-      dateHidden.value  = iso;                               // скрытое поле
-      dateDisplay.value = `${day}.${m}.${y}`;               // формат дд.мм.гггг
+      dateHidden.value  = iso;
+      dateDisplay.value = `${day}.${m}.${y}`;
       closeCalendar();
     });
   });
@@ -428,68 +406,14 @@ function closeCalendar() {
   calPopup.setAttribute('aria-hidden', 'true');
 }
 
-// Открываем по клику на поле
 dateDisplay.addEventListener('click', () => {
   calPopup.classList.contains('is-open') ? closeCalendar() : openCalendar();
 });
 
-// Закрываем по клику вне обёртки
 document.addEventListener('click', e => {
   if (!document.getElementById('date-wrapper').contains(e.target)) closeCalendar();
 });
 
-// Закрываем по Escape
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') closeCalendar();
 });
-
-/* =============================================
-   ВИДЖЕТ ОНЛАЙН-КОНСУЛЬТАНТА
-   ============================================= */
-const chatWidget = document.getElementById('chat-widget');
-const chatBtn    = document.getElementById('chat-btn');
-const chatClose  = document.getElementById('chat-close');
-const faqItems   = document.querySelectorAll('.chat-faq__item');
-
-// Открыть / закрыть поповер
-function toggleChat(forceOpen) {
-  const isOpen = chatWidget.classList.contains('is-open');
-  const shouldOpen = forceOpen !== undefined ? forceOpen : !isOpen;
-  chatWidget.classList.toggle('is-open', shouldOpen);
-  chatBtn.setAttribute('aria-expanded', String(shouldOpen));
-}
-
-chatBtn.addEventListener('click', () => toggleChat());
-chatClose.addEventListener('click', () => toggleChat(false));
-
-// Закрыть по клику вне виджета
-document.addEventListener('click', (e) => {
-  if (!chatWidget.contains(e.target)) {
-    toggleChat(false);
-  }
-});
-
-// Закрыть по Escape
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') toggleChat(false);
-});
-
-// Аккордеон вопросов — открыть/закрыть ответ
-faqItems.forEach((item) => {
-  item.addEventListener('click', () => {
-    const isActive = item.classList.contains('is-active');
-    // Закрываем все остальные
-    faqItems.forEach((i) => i.classList.remove('is-active'));
-    // Если не было активным — открываем
-    if (!isActive) item.classList.add('is-active');
-  });
-
-  // Поддержка клавиатуры (Enter / Space)
-  item.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      item.click();
-    }
-  });
-});
-

@@ -1,0 +1,108 @@
+/**
+ * Pre-deploy validation for static landing + Vercel serverless API.
+ * Ensures required files and asset references exist before Vercel deploy.
+ */
+import { readFileSync, existsSync } from 'node:fs';
+import { join, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const root = join(__dirname, '..');
+
+const REQUIRED_FILES = [
+  'index.html',
+  'privacy.html',
+  'css/style.css',
+  'js/main.js',
+  'api/send.js',
+  'robots.txt',
+  'sitemap.xml',
+  'images/favicon.ico',
+  'images/apple-touch-icon.png',
+  'images/og-image.png',
+  'images/master-photo.png',
+  'images/work-7.png',
+  'images/work-8.png',
+  'images/work-9.png',
+  'images/work-10.png',
+];
+
+const VK_BOOKING_URL = 'https://vk.com/anjelika_tattoo_vrn';
+
+function fail(message) {
+  console.error(`\n[build] ERROR: ${message}`);
+  process.exit(1);
+}
+
+function ok(message) {
+  console.log(`[build] OK: ${message}`);
+}
+
+console.log('[build] Validating project...\n');
+
+for (const file of REQUIRED_FILES) {
+  const fullPath = join(root, file);
+  if (!existsSync(fullPath)) {
+    fail(`Missing required file: ${file}`);
+  }
+  ok(file);
+}
+
+const indexHtml = readFileSync(join(root, 'index.html'), 'utf8');
+
+const assetMatches = [
+  ...indexHtml.matchAll(/(?:src|href)=["'](images\/[^"']+)["']/g),
+].map((m) => m[1]);
+
+for (const asset of new Set(assetMatches)) {
+  if (!existsSync(join(root, asset))) {
+    fail(`Broken asset reference in index.html: ${asset}`);
+  }
+}
+
+ok(`${assetMatches.length} asset references in index.html`);
+
+function extractHrefFromTag(html, className) {
+  const tagMatch = html.match(new RegExp(`<a\\s[^>]*class="[^"]*${className}[^"]*"[^>]*>`, 'i'))
+    || html.match(new RegExp(`<a\\s[^>]*${className}[^>]*>`, 'i'));
+  if (!tagMatch) return null;
+  const hrefMatch = tagMatch[0].match(/href=["']([^"']+)["']/);
+  return hrefMatch ? hrefMatch[1] : null;
+}
+
+function extractHrefFromSection(html, sectionClass, buttonClass) {
+  const sectionMatch = html.match(new RegExp(`class="[^"]*${sectionClass}[^"]*"[\\s\\S]*?</div>`, 'i'));
+  if (!sectionMatch) return null;
+  const buttonMatch = sectionMatch[0].match(new RegExp(`<a\\s[^>]*${buttonClass}[^>]*>`, 'i'));
+  if (!buttonMatch) return null;
+  const hrefMatch = buttonMatch[0].match(/href=["']([^"']+)["']/);
+  return hrefMatch ? hrefMatch[1] : null;
+}
+
+const bookingChecks = [
+  { name: 'Header CTA', url: extractHrefFromTag(indexHtml, 'nav__link--cta') },
+  { name: 'Hero CTA', url: extractHrefFromSection(indexHtml, 'hero__actions', 'btn--primary') },
+  { name: 'About CTA', url: extractHrefFromTag(indexHtml, 'about__cta') },
+  { name: 'Final CTA', url: extractHrefFromSection(indexHtml, 'cta__actions', 'btn--primary') },
+];
+
+for (const { name, url } of bookingChecks) {
+  if (!url) fail(`Booking CTA not found: ${name}`);
+  if (url !== VK_BOOKING_URL) fail(`${name} must link to VK. Found: ${url}`);
+}
+
+ok('All booking CTAs point to VK');
+
+if (!indexHtml.includes('css/style.css')) fail('Missing css/style.css link');
+if (!indexHtml.includes('js/main.js')) fail('Missing js/main.js script');
+
+ok('HTML entry references CSS and JS');
+
+const sendApi = readFileSync(join(root, 'api/send.js'), 'utf8');
+if (!sendApi.includes('export default')) {
+  fail('api/send.js must export a default handler for Vercel');
+}
+
+ok('Vercel serverless API handler present');
+
+console.log('\n[build] Validation passed. Ready for deploy.\n');

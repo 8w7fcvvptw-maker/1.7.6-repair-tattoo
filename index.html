@@ -5,35 +5,36 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- Primary SEO -->
-  <title>Анжелика — тату-мастер в Воронеже | Anji Studio</title>
-  <meta name="description" content="Авторские татуировки в Воронеже. Графика, реализм, минимализм, японский стиль. Мастер Анжелика — запись онлайн.">
+  <title>Анжелика — тату мастер Воронеж | Минимализм и графика</title>
+  <meta name="description" content="Тату мастер в Воронеже. Минимализм, графика и аккуратные тату. Индивидуальный подход, стерильность, бесплатная консультация. Запись онлайн.">
+  <meta name="keywords" content="тату мастер Воронеж, тату Воронеж, минимализм тату Воронеж, графика тату Воронеж">
   <!-- PLACEHOLDER: вставить финальный URL после деплоя -->
   <link rel="canonical" href="PLACEHOLDER_URL">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Анжелика — тату-мастер в Воронеже | Anji Studio">
-  <meta property="og:description" content="Авторские татуировки в Воронеже. Запись онлайн.">
-  <!-- Использовано вложение №1. Для продакшена лучше подготовить WebP 1200×630 -->
+  <meta property="og:title" content="Анжелика — тату мастер Воронеж | Минимализм и графика">
+  <meta property="og:description" content="Минимализм, графика и аккуратные тату в Воронеже. Запись онлайн, бесплатная консультация.">
   <meta property="og:image" content="images/og-image.png">
   <!-- PLACEHOLDER: вставить финальный URL -->
   <meta property="og:url" content="PLACEHOLDER_URL">
   <meta property="og:locale" content="ru_RU">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Анжелика — тату мастер Воронеж">
+  <meta name="twitter:description" content="Минимализм, графика и аккуратные тату в Воронеже.">
 
-  <!-- Local SEO (Voronezh) -->
+  <!-- Local SEO -->
   <meta name="geo.region" content="RU-VOR">
   <meta name="geo.placename" content="Воронеж">
 
   <!-- Favicon -->
-  <!-- PLACEHOLDER: нужны реальные файлы images/favicon.ico и images/apple-touch-icon.png (180×180) -->
   <link rel="icon" href="images/favicon.ico" type="image/x-icon">
   <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="css/style.css">
 </head>
@@ -42,18 +43,19 @@
   <!-- Header -->
   <header class="header" id="header">
     <div class="container header__inner">
-      <a href="#hero" class="header__logo">
-        <span class="logo-accent">Anji</span> Studio
+      <a href="#hero" class="header__logo" aria-label="На главную">
+        <span class="logo-accent">Anji</span>
       </a>
-      <nav class="header__nav" id="nav">
+      <nav class="header__nav" id="nav" aria-label="Основная навигация">
         <ul class="nav__list">
           <li><a href="#about" class="nav__link">О мастере</a></li>
-          <li><a href="#services" class="nav__link">Услуги</a></li>
-          <li><a href="#portfolio" class="nav__link">Портфолио</a></li>
-          <li><a href="#booking" class="nav__link nav__link--cta">Записаться</a></li>
+          <li><a href="#portfolio" class="nav__link">Работы</a></li>
+          <li><a href="#process" class="nav__link">Запись</a></li>
+          <li><a href="#faq" class="nav__link">FAQ</a></li>
+          <li><a href="https://vk.com/anjelika_tattoo_vrn" target="_blank" rel="noopener noreferrer" class="nav__link nav__link--cta">Записаться</a></li>
         </ul>
       </nav>
-      <button class="header__burger" id="burger" aria-label="Открыть меню">
+      <button class="header__burger" id="burger" aria-label="Открыть меню" aria-expanded="false">
         <span></span>
         <span></span>
         <span></span>
@@ -61,123 +63,453 @@
     </div>
   </header>
 
-  <!-- Hero -->
-  <section class="hero" id="hero">
-    <div class="hero__overlay"></div>
-    <div class="container hero__content">
-      <h1 class="hero__title fade-in">
-        <span class="hero__title-accent">Искусство</span> на коже
-      </h1>
-      <p class="hero__subtitle fade-in">Авторские татуировки любой сложности. Индивидуальный подход к каждому клиенту.</p>
-      <a href="#booking" class="btn btn--primary hero__btn fade-in">Записаться на сеанс</a>
-    </div>
-  </section>
+  <main>
 
-  <!-- About -->
-  <section class="about section" id="about">
-    <div class="container about__inner">
-      <div class="about__text fade-in">
-        <h2 class="section__title section__title--left">О мастере</h2>
-        <p class="about__name">Семёнова Анжелика</p>
-        <p>Привет! Я Анжелика, и я обожаю то, что делаю. Каждая татуировка для меня — это маленькая история, которую мы создаём вместе. Графика, реализм, авторские штуки — люблю всё, где можно вложить душу.</p>
-        <p>Использую только крутые материалы и одноразовые расходники — за стерильность можешь не переживать. Перед сеансом обязательно поболтаем, обсудим идею, подберём стиль и размер. Мне важно, чтобы результат нравился именно тебе!</p>
+    <!-- Hero -->
+    <section class="hero" id="hero">
+      <div class="hero__bg">
+        <img src="images/master-photo.png" alt="" class="hero__bg-img" fetchpriority="high">
       </div>
-      <div class="about__image fade-in">
-        <img src="images/master-photo.png" alt="Семёнова Анжелика — тату-мастер">
+      <div class="hero__overlay"></div>
+      <div class="container hero__content">
+        <div class="hero__badge fade-in">
+          <span class="hero__badge-dot"></span>
+          Скидка 10% за подписку на группу VK
+        </div>
+        <h1 class="hero__title fade-in">
+          Тату, которые хочется носить годами
+        </h1>
+        <p class="hero__subtitle fade-in">
+          Минимализм, графика и аккуратные тату в Воронеже
+        </p>
+        <div class="hero__actions fade-in">
+          <a href="https://vk.com/anjelika_tattoo_vrn" target="_blank" rel="noopener noreferrer" class="btn btn--primary">Записаться</a>
+          <a href="#portfolio" class="btn btn--ghost">Смотреть работы</a>
+        </div>
+        <ul class="hero__features fade-in" aria-label="Преимущества">
+          <li class="hero__feature">
+            <svg class="hero__feature-icon" viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><path d="M16.7 5.3a1 1 0 010 1.4l-7.5 7.5a1 1 0 01-1.4 0l-3.5-3.5a1 1 0 111.4-1.4l2.8 2.8 6.8-6.8a1 1 0 011.4 0z" fill="currentColor"/></svg>
+            Стерильные расходники
+          </li>
+          <li class="hero__feature">
+            <svg class="hero__feature-icon" viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><path d="M16.7 5.3a1 1 0 010 1.4l-7.5 7.5a1 1 0 01-1.4 0l-3.5-3.5a1 1 0 111.4-1.4l2.8 2.8 6.8-6.8a1 1 0 011.4 0z" fill="currentColor"/></svg>
+            Одноразовые иглы
+          </li>
+          <li class="hero__feature">
+            <svg class="hero__feature-icon" viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><path d="M16.7 5.3a1 1 0 010 1.4l-7.5 7.5a1 1 0 01-1.4 0l-3.5-3.5a1 1 0 111.4-1.4l2.8 2.8 6.8-6.8a1 1 0 011.4 0z" fill="currentColor"/></svg>
+            Комфортная атмосфера
+          </li>
+          <li class="hero__feature">
+            <svg class="hero__feature-icon" viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><path d="M16.7 5.3a1 1 0 010 1.4l-7.5 7.5a1 1 0 01-1.4 0l-3.5-3.5a1 1 0 111.4-1.4l2.8 2.8 6.8-6.8a1 1 0 011.4 0z" fill="currentColor"/></svg>
+            Бесплатная консультация
+          </li>
+        </ul>
       </div>
-    </div>
-  </section>
+      <a href="#vk-promo" class="hero__scroll" aria-label="Прокрутить вниз">
+        <span class="hero__scroll-line"></span>
+      </a>
+    </section>
 
-  <!-- Services -->
-  <section class="services section" id="services">
-    <div class="container">
-      <h2 class="section__title fade-in">Услуги и цены</h2>
-      <p class="section__subtitle fade-in">Подберём формат работы под ваш запрос</p>
-      <div class="services__grid">
-        <div class="service-card fade-in">
-          <div class="service-card__icon">
-            <svg viewBox="0 0 64 64" width="48" height="48" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M32 8 L36 20 L48 20 L38 28 L42 40 L32 32 L22 40 L26 28 L16 20 L28 20Z"/>
-            </svg>
+    <!-- VK Promo -->
+    <section class="vk-promo section" id="vk-promo">
+      <div class="container">
+        <div class="vk-promo__card glass fade-in">
+          <div class="vk-promo__glow" aria-hidden="true"></div>
+          <div class="vk-promo__content">
+            <span class="vk-promo__label">Специальное предложение</span>
+            <h2 class="vk-promo__title">Подпишитесь на группу VK и&nbsp;получите скидку&nbsp;10% на&nbsp;первую тату</h2>
+            <p class="vk-promo__text">Там публикую новые работы, эскизы и свободные окна для записи. Подписка — и скидка ваша.</p>
+            <a href="https://vk.com/anjelika_tattoo_vrn" target="_blank" rel="noopener noreferrer" class="btn btn--vk">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
+                <path d="M15.684 0H8.316C1.592 0 0 1.592 0 8.316v7.368C0 22.408 1.592 24 8.316 24h7.368C22.408 24 24 22.408 24 15.684V8.316C24 1.592 22.391 0 15.684 0zm3.692 17.123h-1.744c-.66 0-.864-.525-2.05-1.727-1.033-1-1.49-1.135-1.744-1.135-.356 0-.458.102-.458.593v1.575c0 .424-.135.678-1.253.678-1.846 0-3.896-1.12-5.339-3.202-2.17-3.042-2.763-5.32-2.763-5.778 0-.254.102-.491.593-.491h1.744c.44 0 .61.203.78.678.864 2.49 2.303 4.675 2.896 4.675.22 0 .322-.102.322-.66V9.721c-.068-1.186-.695-1.287-.695-1.71 0-.203.17-.407.44-.407h2.744c.373 0 .508.203.508.643v3.473c0 .372.17.508.271.508.22 0 .407-.136.813-.542 1.254-1.406 2.151-3.574 2.151-3.574.119-.254.322-.491.763-.491h1.744c.525 0 .644.27.525.643-.22 1.017-2.354 4.031-2.354 4.031-.186.305-.254.44 0 .78.186.254.796.779 1.203 1.253.745.847 1.32 1.558 1.473 2.05.17.49-.085.744-.576.744z"/>
+              </svg>
+              Перейти в группу VK
+            </a>
           </div>
-          <h3 class="service-card__title">Татуировка</h3>
-          <p class="service-card__desc">Авторские работы в любом стиле — от минимализма до реализма. Разработка эскиза включена.</p>
-          <p class="service-card__price">от 3 000 ₽</p>
-        </div>
-        <div class="service-card fade-in">
-          <div class="service-card__icon">
-            <svg viewBox="0 0 64 64" width="48" height="48" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="32" cy="32" r="20"/>
-              <path d="M24 32 L30 38 L40 26"/>
-            </svg>
+          <div class="vk-promo__visual fade-in" aria-hidden="true">
+            <div class="vk-promo__discount">
+              <span class="vk-promo__discount-value">−10%</span>
+              <span class="vk-promo__discount-label">на первую тату</span>
+            </div>
           </div>
-          <h3 class="service-card__title">Перекрытие</h3>
-          <p class="service-card__desc">Перекрытие старых или некачественных татуировок. Превратим неудачную работу в шедевр.</p>
-          <p class="service-card__price">от 5 000 ₽</p>
-        </div>
-        <div class="service-card fade-in">
-          <div class="service-card__icon">
-            <svg viewBox="0 0 64 64" width="48" height="48" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="14" y="14" width="36" height="36" rx="4"/>
-              <path d="M22 32 L42 32 M32 22 L32 42"/>
-            </svg>
-          </div>
-          <h3 class="service-card__title">Коррекция</h3>
-          <p class="service-card__desc">Обновление и коррекция существующих тату. Восстановим яркость и чёткость линий.</p>
-          <p class="service-card__price">от 1 500 ₽</p>
-        </div>
-        <div class="service-card fade-in">
-          <div class="service-card__icon">
-            <svg viewBox="0 0 64 64" width="48" height="48" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 52 L12 16 C12 13 14 12 16 12 L40 12 L52 24 L52 52 C52 54 50 56 48 56 L16 56 C14 56 12 54 12 52Z"/>
-              <path d="M40 12 L40 24 L52 24"/>
-              <path d="M22 34 L42 34 M22 42 L36 42"/>
-            </svg>
-          </div>
-          <h3 class="service-card__title">Разработка эскиза</h3>
-          <p class="service-card__desc">Создание уникального эскиза по вашему описанию. Доработка до полного согласования.</p>
-          <p class="service-card__price">от 2 000 ₽</p>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Portfolio -->
-  <section class="portfolio section" id="portfolio">
-    <div class="container">
-      <h2 class="section__title fade-in">Портфолио</h2>
-      <p class="section__subtitle fade-in">Избранные работы мастера</p>
-      <div class="portfolio__grid">
-        <div class="portfolio__item fade-in" data-index="0">
-          <img src="images/work-7.png" alt="Тату работа — графика с персонажем" loading="lazy">
-          <div class="portfolio__overlay">
-            <span>Графика</span>
+    <!-- About -->
+    <section class="about section" id="about">
+      <div class="container about__inner">
+        <div class="about__image-wrap fade-in">
+          <div class="about__image">
+            <img src="images/master-photo.png" alt="Анжелика — тату мастер в Воронеже" width="480" height="600" loading="lazy">
           </div>
+          <div class="about__image-accent" aria-hidden="true"></div>
         </div>
-        <div class="portfolio__item fade-in" data-index="1">
-          <img src="images/work-8.png" alt="Тату работа — цветы в графическом стиле" loading="lazy">
-          <div class="portfolio__overlay">
-            <span>Флора</span>
+        <div class="about__text fade-in">
+          <span class="section__eyebrow">О мастере</span>
+          <h2 class="section__title section__title--left">Привет! Меня зовут Анжелика</h2>
+          <div class="about__copy">
+            <p>Я тату мастер из Воронежа. Работаю в минимализме, графике и небольших аккуратных тату.</p>
+            <p>Сейчас активно пополняю портфолио и ищу моделей на новые работы.</p>
           </div>
-        </div>
-        <div class="portfolio__item fade-in" data-index="2">
-          <img src="images/work-9.png" alt="Тату работа — череп и роза" loading="lazy">
-          <div class="portfolio__overlay">
-            <span>Dark Art</span>
+          <div class="about__values">
+            <p class="about__values-title">Для меня важно:</p>
+            <ul class="about__values-list">
+              <li>Стерильность и безопасность</li>
+              <li>Комфортная атмосфера</li>
+              <li>Аккуратные линии</li>
+              <li>Индивидуальный подход</li>
+            </ul>
           </div>
+          <a href="https://vk.com/anjelika_tattoo_vrn" target="_blank" rel="noopener noreferrer" class="btn btn--primary about__cta">Написать мне</a>
         </div>
-        <div class="portfolio__item fade-in" data-index="3">
-          <img src="images/work-10.png" alt="Тату работа — персонаж Bender" loading="lazy">
-          <div class="portfolio__overlay">
-            <span>Персонажи</span>
+      </div>
+    </section>
+
+    <!-- Portfolio -->
+    <section class="portfolio section" id="portfolio">
+      <div class="container">
+        <div class="section__header fade-in">
+          <span class="section__eyebrow">Портфолио</span>
+          <h2 class="section__title">Работы</h2>
+          <p class="section__subtitle">Минимализм, графика и аккуратные линии</p>
+        </div>
+        <div class="portfolio__filters fade-in" role="tablist" aria-label="Фильтр работ">
+          <button class="portfolio__filter is-active" data-filter="all" role="tab" aria-selected="true">Все</button>
+          <button class="portfolio__filter" data-filter="minimal" role="tab" aria-selected="false">Минимализм</button>
+          <button class="portfolio__filter" data-filter="graphic" role="tab" aria-selected="false">Графика</button>
+          <button class="portfolio__filter" data-filter="flora" role="tab" aria-selected="false">Флора</button>
+        </div>
+        <div class="portfolio__grid">
+          <article class="portfolio__item fade-in" data-category="graphic" data-index="0">
+            <img src="images/work-7.png" alt="Тату в графическом стиле — работа мастера Анжелики, Воронеж" loading="lazy">
+            <div class="portfolio__overlay">
+              <span class="portfolio__tag">Графика</span>
+              <span class="portfolio__zoom" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.5-4.5M11 8v6M8 11h6"/></svg>
+              </span>
+            </div>
+          </article>
+          <article class="portfolio__item portfolio__item--tall fade-in" data-category="flora" data-index="1">
+            <img src="images/work-8.png" alt="Тату с цветами в графическом стиле — Воронеж" loading="lazy">
+            <div class="portfolio__overlay">
+              <span class="portfolio__tag">Флора</span>
+              <span class="portfolio__zoom" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.5-4.5M11 8v6M8 11h6"/></svg>
+              </span>
+            </div>
+          </article>
+          <article class="portfolio__item fade-in" data-category="graphic" data-index="2">
+            <img src="images/work-9.png" alt="Графическая тату работа — минимализм, Воронеж" loading="lazy">
+            <div class="portfolio__overlay">
+              <span class="portfolio__tag">Графика</span>
+              <span class="portfolio__zoom" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.5-4.5M11 8v6M8 11h6"/></svg>
+              </span>
+            </div>
+          </article>
+          <article class="portfolio__item fade-in" data-category="minimal" data-index="3">
+            <img src="images/work-10.png" alt="Минималистичная тату работа — Воронеж" loading="lazy">
+            <div class="portfolio__overlay">
+              <span class="portfolio__tag">Минимализм</span>
+              <span class="portfolio__zoom" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.5-4.5M11 8v6M8 11h6"/></svg>
+              </span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Trust -->
+    <section class="trust section" id="trust">
+      <div class="container">
+        <div class="section__header fade-in">
+          <span class="section__eyebrow">Доверие</span>
+          <h2 class="section__title">Почему мне доверяют</h2>
+        </div>
+        <div class="trust__grid">
+          <div class="trust-card glass fade-in">
+            <div class="trust-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 32 32" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 4l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/><circle cx="16" cy="16" r="12"/></svg>
+            </div>
+            <h3 class="trust-card__title">Стерильность</h3>
+            <p class="trust-card__text">Рабочее место и инструменты обрабатываются по стандартам гигиены</p>
+          </div>
+          <div class="trust-card glass fade-in">
+            <div class="trust-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 32 32" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="8" y="6" width="16" height="20" rx="2"/><path d="M12 6V4M20 6V4M12 16h8"/></svg>
+            </div>
+            <h3 class="trust-card__title">Одноразовые расходники</h3>
+            <p class="trust-card__text">Иглы, перчатки и расходные материалы — только одноразовые</p>
+          </div>
+          <div class="trust-card glass fade-in">
+            <div class="trust-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 32 32" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 26l4-12 6 4 4-8 6 16"/><circle cx="22" cy="10" r="3"/></svg>
+            </div>
+            <h3 class="trust-card__title">Помощь с эскизом</h3>
+            <p class="trust-card__text">Помогу доработать идею, подобрать размер и расположение</p>
+          </div>
+          <div class="trust-card glass fade-in">
+            <div class="trust-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 32 32" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 20c4-8 8-12 12-12s8 4 12 12"/><circle cx="16" cy="12" r="4"/></svg>
+            </div>
+            <h3 class="trust-card__title">Комфортная атмосфера</h3>
+            <p class="trust-card__text">Спокойная обстановка — можно расслабиться и обсудить идею</p>
+          </div>
+          <div class="trust-card glass fade-in">
+            <div class="trust-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 32 32" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 24l4-16h8l4 16M12 12h8"/></svg>
+            </div>
+            <h3 class="trust-card__title">Аккуратная работа</h3>
+            <p class="trust-card__text">Чистые линии и внимание к деталям — даже в небольших тату</p>
+          </div>
+          <div class="trust-card glass fade-in">
+            <div class="trust-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 32 32" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="16" cy="12" r="5"/><path d="M8 28c0-6 4-10 8-10s8 4 8 10"/></svg>
+            </div>
+            <h3 class="trust-card__title">Индивидуальный подход</h3>
+            <p class="trust-card__text">Каждая тату — под вас: стиль, размер, история</p>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+
+    <!-- Process -->
+    <section class="process section" id="process">
+      <div class="container">
+        <div class="section__header fade-in">
+          <span class="section__eyebrow">Процесс</span>
+          <h2 class="section__title">Как проходит запись</h2>
+          <p class="section__subtitle">Просто и без лишних шагов</p>
+        </div>
+        <ol class="timeline">
+          <li class="timeline__item fade-in">
+            <div class="timeline__marker">
+              <span class="timeline__number">01</span>
+              <svg class="timeline__icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+            </div>
+            <div class="timeline__content glass">
+              <h3 class="timeline__title">Пишете в сообщения</h3>
+              <p class="timeline__text">Telegram, VK или форма на сайте — как удобнее</p>
+            </div>
+          </li>
+          <li class="timeline__item fade-in">
+            <div class="timeline__marker">
+              <span class="timeline__number">02</span>
+              <svg class="timeline__icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12h8M12 8v8"/></svg>
+            </div>
+            <div class="timeline__content glass">
+              <h3 class="timeline__title">Обсуждаем идею</h3>
+              <p class="timeline__text">Рассказываете задумку — я задаю уточняющие вопросы</p>
+            </div>
+          </li>
+          <li class="timeline__item fade-in">
+            <div class="timeline__marker">
+              <span class="timeline__number">03</span>
+              <svg class="timeline__icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 12l3 3 5-6"/></svg>
+            </div>
+            <div class="timeline__content glass">
+              <h3 class="timeline__title">Подбираем эскиз и место</h3>
+              <p class="timeline__text">Согласуем размер, стиль и расположение на теле</p>
+            </div>
+          </li>
+          <li class="timeline__item fade-in">
+            <div class="timeline__marker">
+              <span class="timeline__number">04</span>
+              <svg class="timeline__icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+            </div>
+            <div class="timeline__content glass">
+              <h3 class="timeline__title">Назначаем дату сеанса</h3>
+              <p class="timeline__text">Выбираем удобное время и готовимся к сеансу</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq section" id="faq">
+      <div class="container faq__inner">
+        <div class="faq__header fade-in">
+          <span class="section__eyebrow">Вопросы</span>
+          <h2 class="section__title section__title--left">Частые вопросы</h2>
+        </div>
+        <div class="faq__list fade-in" role="list">
+          <details class="faq__item">
+            <summary class="faq__question">
+              <span>Больно ли делать тату?</span>
+              <svg class="faq__chevron" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </summary>
+            <div class="faq__answer">
+              <p>Чувствуется, но терпимо. Зависит от места на теле — рёбра и запястья чувствительнее, плечо и бедро спокойнее. На сеансе можно сделать перерыв.</p>
+            </div>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__question">
+              <span>Сколько заживает?</span>
+              <svg class="faq__chevron" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </summary>
+            <div class="faq__answer">
+              <p>Верхний слой кожи — 2–3 недели, полное заживление — около 1–2 месяцев. После сеанса дам подробные рекомендации по уходу.</p>
+            </div>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__question">
+              <span>Можно ли со своим эскизом?</span>
+              <svg class="faq__chevron" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </summary>
+            <div class="faq__answer">
+              <p>Да. Можно принести референс или готовый эскиз — вместе доработаем его под ваш стиль, размер и место на теле.</p>
+            </div>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__question">
+              <span>Как ухаживать?</span>
+              <svg class="faq__chevron" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </summary>
+            <div class="faq__answer">
+              <p>После сеанса получите памятку: как мыть, чем мазать, чего избегать первые недели. Если вопросы — всегда на связи.</p>
+            </div>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__question">
+              <span>Стерильно ли это?</span>
+              <svg class="faq__chevron" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </summary>
+            <div class="faq__answer">
+              <p>Да. Использую одноразовые иглы, перчатки и расходники. Рабочая зона обрабатывается перед каждым клиентом.</p>
+            </div>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__question">
+              <span>Сколько длится сеанс?</span>
+              <svg class="faq__chevron" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </summary>
+            <div class="faq__answer">
+              <p>Зависит от размера и сложности. Небольшая тату — 1–2 часа, более крупная работа — несколько сеансов. Обсудим заранее.</p>
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- Reviews -->
+    <section class="reviews section" id="reviews">
+      <div class="container">
+        <div class="section__header fade-in">
+          <span class="section__eyebrow">Отзывы</span>
+          <h2 class="section__title">Что говорят клиенты</h2>
+        </div>
+        <div class="reviews__grid">
+          <!-- PLACEHOLDER: заменить на реальные отзывы от клиентов -->
+          <blockquote class="review-card glass fade-in">
+            <div class="review-card__stars" aria-label="5 из 5">★★★★★</div>
+            <p class="review-card__text">«PLACEHOLDER: вставить реальный отзыв клиента — атмосфера, аккуратность, комфорт на сеансе»</p>
+            <footer class="review-card__author">
+              <span class="review-card__name">Алина</span>
+              <span class="review-card__meta">Минимализм, предплечье</span>
+            </footer>
+          </blockquote>
+          <blockquote class="review-card glass fade-in">
+            <div class="review-card__stars" aria-label="5 из 5">★★★★★</div>
+            <p class="review-card__text">«PLACEHOLDER: вставить реальный отзыв клиента — помощь с эскизом, результат»</p>
+            <footer class="review-card__author">
+              <span class="review-card__name">Кирилл</span>
+              <span class="review-card__meta">Графика, плечо</span>
+            </footer>
+          </blockquote>
+          <blockquote class="review-card glass fade-in">
+            <div class="review-card__stars" aria-label="5 из 5">★★★★★</div>
+            <p class="review-card__text">«PLACEHOLDER: вставить реальный отзыв клиента — стерильность, общение, итог»</p>
+            <footer class="review-card__author">
+              <span class="review-card__name">Мария</span>
+              <span class="review-card__meta">Флора, запястье</span>
+            </footer>
+          </blockquote>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="cta section" id="cta">
+      <div class="container">
+        <div class="cta__card fade-in">
+          <div class="cta__glow" aria-hidden="true"></div>
+          <h2 class="cta__title">Готовы к новой тату?</h2>
+          <p class="cta__text">Напишите в сообщения — помогу подобрать идею, размер и стиль</p>
+          <p class="cta__urgency">В этом месяце беру ограниченное количество моделей</p>
+          <div class="cta__actions">
+            <a href="https://vk.com/anjelika_tattoo_vrn" target="_blank" rel="noopener noreferrer" class="btn btn--primary">Записаться</a>
+            <a href="https://vk.com/anjelika_tattoo_vrn" target="_blank" rel="noopener noreferrer" class="btn btn--ghost">Написать в VK</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Booking -->
+    <section class="booking section" id="booking">
+      <div class="container">
+        <div class="section__header fade-in">
+          <span class="section__eyebrow">Запись</span>
+          <h2 class="section__title">Оставить заявку</h2>
+          <p class="section__subtitle">Отвечу в течение дня и помогу с записью</p>
+        </div>
+        <form class="booking__form glass fade-in" id="booking-form" novalidate>
+          <div class="form__group">
+            <label for="name" class="form__label">Имя *</label>
+            <input type="text" id="name" name="name" class="form__input" placeholder="Ваше имя" required autocomplete="name">
+            <span class="form__error" id="name-error"></span>
+          </div>
+          <div class="form__group">
+            <label for="phone" class="form__label">Телефон *</label>
+            <input type="tel" id="phone" name="phone" class="form__input" placeholder="+7 (___) ___-__-__" required autocomplete="tel">
+            <span class="form__error" id="phone-error"></span>
+          </div>
+          <div class="form__group">
+            <label for="service" class="form__label">Услуга *</label>
+            <select id="service" name="service" class="form__input form__select" required>
+              <option value="" disabled selected>Выберите услугу</option>
+              <option value="tattoo">Татуировка</option>
+              <option value="sketch">Разработка эскиза</option>
+              <option value="coverup">Перекрытие</option>
+              <option value="correction">Коррекция</option>
+            </select>
+            <span class="form__error" id="service-error"></span>
+          </div>
+          <div class="form__group" id="date-wrapper">
+            <label for="date-display" class="form__label">Желаемая дата</label>
+            <input type="text" id="date-display" class="form__input" placeholder="дд.мм.гггг" readonly>
+            <input type="hidden" id="date" name="date">
+            <div class="cal-popup" id="cal-popup" aria-hidden="true"></div>
+          </div>
+          <div class="form__group form__group--full">
+            <label for="message" class="form__label">Комментарий</label>
+            <textarea id="message" name="message" class="form__input form__textarea" placeholder="Идея, стиль, размер, место на теле..." rows="4"></textarea>
+          </div>
+          <div class="form__group form__group--full">
+            <label class="form__checkbox">
+              <input type="checkbox" id="consent" name="consent" required>
+              <span>Я согласен(а) на <a href="privacy.html" target="_blank" rel="noopener" class="form__link">обработку персональных данных</a></span>
+            </label>
+            <span class="form__error" id="consent-error"></span>
+          </div>
+          <div class="form__group form__group--full">
+            <button type="submit" class="btn btn--primary btn--full" id="submit-btn">Отправить заявку</button>
+          </div>
+        </form>
+        <div class="booking__success" id="booking-success">
+          <div class="booking__success-icon" aria-hidden="true">&#10003;</div>
+          <h3>Заявка отправлена!</h3>
+          <p>Свяжусь с вами в ближайшее время для подтверждения записи.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
 
   <!-- Lightbox -->
-  <div class="lightbox" id="lightbox">
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Просмотр работы">
     <button class="lightbox__close" id="lightbox-close" aria-label="Закрыть">&times;</button>
     <button class="lightbox__prev" id="lightbox-prev" aria-label="Предыдущее">&lsaquo;</button>
     <button class="lightbox__next" id="lightbox-next" aria-label="Следующее">&rsaquo;</button>
@@ -186,91 +518,33 @@
     </div>
   </div>
 
-  <!-- Booking -->
-  <section class="booking section" id="booking">
-    <div class="container">
-      <h2 class="section__title fade-in">Запись на сеанс</h2>
-      <p class="section__subtitle fade-in">Заполните форму и мы свяжемся с вами для подтверждения</p>
-      <form class="booking__form fade-in" id="booking-form" novalidate>
-        <div class="form__group">
-          <label for="name" class="form__label">Имя *</label>
-          <input type="text" id="name" name="name" class="form__input" placeholder="Ваше имя" required>
-          <span class="form__error" id="name-error"></span>
-        </div>
-        <div class="form__group">
-          <label for="phone" class="form__label">Телефон *</label>
-          <input type="tel" id="phone" name="phone" class="form__input" placeholder="+7 (___) ___-__-__" required>
-          <span class="form__error" id="phone-error"></span>
-        </div>
-        <div class="form__group">
-          <label for="service" class="form__label">Услуга *</label>
-          <select id="service" name="service" class="form__input form__select" required>
-            <option value="" disabled selected>Выберите услугу</option>
-            <option value="tattoo">Татуировка</option>
-            <option value="coverup">Перекрытие</option>
-            <option value="correction">Коррекция</option>
-            <option value="sketch">Разработка эскиза</option>
-          </select>
-          <span class="form__error" id="service-error"></span>
-        </div>
-        <div class="form__group" id="date-wrapper">
-          <label for="date-display" class="form__label">Желаемая дата</label>
-          <!-- Видимое поле: отображает дату в формате дд.мм.гггг, открывает календарь -->
-          <input type="text" id="date-display" class="form__input" placeholder="дд.мм.гггг" readonly>
-          <!-- Скрытое поле: хранит дату в формате YYYY-MM-DD для отправки -->
-          <input type="hidden" id="date" name="date">
-          <!-- Всплывающий кастомный календарь -->
-          <div class="cal-popup" id="cal-popup" aria-hidden="true"></div>
-        </div>
-        <div class="form__group form__group--full">
-          <label for="message" class="form__label">Комментарий</label>
-          <textarea id="message" name="message" class="form__input form__textarea" placeholder="Опишите вашу идею, желаемый стиль, размер и расположение..." rows="4"></textarea>
-        </div>
-        <div class="form__group form__group--full">
-          <label class="form__checkbox">
-            <input type="checkbox" id="consent" name="consent" required>
-            <span>Я согласен(а) на <a href="privacy.html" target="_blank" class="form__link">обработку персональных данных</a></span>
-          </label>
-          <span class="form__error" id="consent-error"></span>
-        </div>
-        <div class="form__group form__group--full">
-          <button type="submit" class="btn btn--primary btn--full" id="submit-btn">Отправить заявку</button>
-        </div>
-      </form>
-      <div class="booking__success" id="booking-success">
-        <div class="booking__success-icon">&#10003;</div>
-        <h3>Заявка отправлена!</h3>
-        <p>Мы свяжемся с вами в ближайшее время для подтверждения записи.</p>
-      </div>
-    </div>
-  </section>
-
   <!-- Footer -->
   <footer class="footer">
     <div class="container footer__inner">
       <div class="footer__brand">
         <a href="#hero" class="header__logo">
-          <span class="logo-accent">Anji</span> Studio
+          <span class="logo-accent">Anji</span>
         </a>
-        <p class="footer__address">г. Воронеж, ул. Лётчика Щербакова, 10</p>
+        <p class="footer__city">г. Воронеж</p>
+        <p class="footer__address">ул. Лётчика Щербакова, 10</p>
         <p class="footer__hours">Пн–Сб: 11:00 – 21:00</p>
       </div>
       <div class="footer__contacts">
         <h4>Контакты</h4>
         <a href="tel:+79397812057" class="footer__link">+7 (939) 781-20-57</a>
-        <a href="https://vk.com/darkness_inside666" target="_blank" rel="noopener" class="footer__link">VK darkness_inside666</a>
+        <a href="https://t.me/Anj_lika_S" target="_blank" rel="noopener noreferrer" class="footer__link">Telegram</a>
+        <a href="https://vk.com/anjelika_tattoo_vrn" target="_blank" rel="noopener noreferrer" class="footer__link">ВКонтакте</a>
       </div>
       <div class="footer__social">
-        <h4>Мы в соцсетях</h4>
+        <h4>Соцсети</h4>
         <div class="footer__social-links">
-          <!-- проверено: username из данных владельца -->
-          <a href="https://t.me/Anj_lika_S" target="_blank" rel="noopener" class="social-link" aria-label="Telegram">
-            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+          <a href="https://t.me/Anj_lika_S" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Telegram">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
               <path d="M11.944 0A12 12 0 000 12a12 12 0 0012 12 12 12 0 0012-12A12 12 0 0012 0a12 12 0 00-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 01.171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
             </svg>
           </a>
-          <a href="https://vk.com/anjelika_tattoo_vrn" target="_blank" rel="noopener" class="social-link" aria-label="ВКонтакте">
-            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+          <a href="https://vk.com/anjelika_tattoo_vrn" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="ВКонтакте">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
               <path d="M15.684 0H8.316C1.592 0 0 1.592 0 8.316v7.368C0 22.408 1.592 24 8.316 24h7.368C22.408 24 24 22.408 24 15.684V8.316C24 1.592 22.391 0 15.684 0zm3.692 17.123h-1.744c-.66 0-.864-.525-2.05-1.727-1.033-1-1.49-1.135-1.744-1.135-.356 0-.458.102-.458.593v1.575c0 .424-.135.678-1.253.678-1.846 0-3.896-1.12-5.339-3.202-2.17-3.042-2.763-5.32-2.763-5.778 0-.254.102-.491.593-.491h1.744c.44 0 .61.203.78.678.864 2.49 2.303 4.675 2.896 4.675.22 0 .322-.102.322-.66V9.721c-.068-1.186-.695-1.287-.695-1.71 0-.203.17-.407.44-.407h2.744c.373 0 .508.203.508.643v3.473c0 .372.17.508.271.508.22 0 .407-.136.813-.542 1.254-1.406 2.151-3.574 2.151-3.574.119-.254.322-.491.763-.491h1.744c.525 0 .644.27.525.643-.22 1.017-2.354 4.031-2.354 4.031-.186.305-.254.44 0 .78.186.254.796.779 1.203 1.253.745.847 1.32 1.558 1.473 2.05.17.49-.085.744-.576.744z"/>
             </svg>
           </a>
@@ -279,83 +553,20 @@
     </div>
     <div class="footer__bottom">
       <div class="container">
-        <p>&copy; 2026 Anji Studio. Все права защищены.</p>
-        <p class="footer__disclaimer">* Указанные цены являются ориентировочными и соответствуют минимальной стоимости работ простой сложности небольшого размера. Итоговая стоимость определяется индивидуально после обсуждения эскиза, размера, расположения и сложности татуировки.</p>
+        <p>&copy; 2026 Anji. Все права защищены.</p>
       </div>
     </div>
   </footer>
 
-  <!-- Кнопка онлайн-консультанта -->
-  <div class="chat-widget" id="chat-widget">
-    <div class="chat-popup" id="chat-popup" role="dialog" aria-modal="true" aria-label="Онлайн-консультант">
-      <div class="chat-popup__header">
-        <div class="chat-popup__avatar">
-          <svg viewBox="0 0 40 40" width="36" height="36" fill="none">
-            <circle cx="20" cy="20" r="20" fill="#c8a97e"/>
-            <circle cx="20" cy="16" r="7" fill="#fff" fill-opacity=".9"/>
-            <ellipse cx="20" cy="34" rx="11" ry="7" fill="#fff" fill-opacity=".9"/>
-          </svg>
-        </div>
-        <div>
-          <p class="chat-popup__name">Анжелика</p>
-          <p class="chat-popup__status">Онлайн-консультант</p>
-        </div>
-        <button class="chat-popup__close" id="chat-close" aria-label="Закрыть">&times;</button>
-      </div>
-      <div class="chat-popup__body">
-        <p class="chat-popup__intro">Привет! 👋 Выбери вопрос или напиши в Telegram</p>
-        <ul class="chat-faq">
-          <li class="chat-faq__item" tabindex="0"><span class="chat-faq__icon">💰</span> Сколько стоит первая тату?
-            <div class="chat-faq__answer">Маленькие работы начинаются от 3 000 ₽. Цена зависит от стиля, деталей и места на теле. На первой консультации точно рассчитаем стоимость именно вашей идеи!</div>
-          </li>
-          <li class="chat-faq__item" tabindex="0"><span class="chat-faq__icon">😟</span> Больно ли делать тату?
-            <div class="chat-faq__answer">Честно? Чувствуется, но не критично. Чувствительнее рёбра и запястья, спокойнее — плечо и бедро. Большинство моих клиентов отлично переносят процесс. Главное — не зацикливайтесь на этом! 💪</div>
-          </li>
-          <li class="chat-faq__item" tabindex="0"><span class="chat-faq__icon">⏰</span> Как долго заживает?
-            <div class="chat-faq__answer">Верхний слой — 2–3 недели, полное заживление — 1–2 месяца. После сеанса дам вам все инструкции по уходу. Я всегда на связи, если вопросы возникнут!</div>
-          </li>
-          <li class="chat-faq__item" tabindex="0"><span class="chat-faq__icon">✋</span> Как подготовиться к сеансу?
-            <div class="chat-faq__answer">Просто: хорошо поспи, покушай за час-два до визита, надень удобную одежду с доступом к нужному месту. Алкоголь исключаем за сутки. И не волнуйся — я делаю это каждый день! 😊</div>
-          </li>
-          <li class="chat-faq__item" tabindex="0"><span class="chat-faq__icon">🔄</span> Можно ли перекрыть старую тату?
-            <div class="chat-faq__answer">Конечно! Это моя специальность. Покажи фото в Telegram — я честно скажу, что возможно. Часто получается даже круче, чем было! 🎨</div>
-          </li>
-          <li class="chat-faq__item" tabindex="0"><span class="chat-faq__icon">🎯</span> С чего начать новичку?
-            <div class="chat-faq__answer">Начните с идеи (даже если она размытая!) и места на теле. Обсудим стиль, размер, цветность. Помогу подобрать картинку-вдохновение или нарисую эскиз под вашу задумку.</div>
-          </li>
-          <li class="chat-faq__item" tabindex="0"><span class="chat-faq__icon">💎</span> Какой стиль выбрать?
-            <div class="chat-faq__answer">Это зависит от вас! Люблю графику, реализм, минимализм, японский стиль, дотворк, леттеринг. Покажу примеры работ, и мы найдём ваш идеальный стиль вместе!</div>
-          </li>
-        </ul>
-      </div>
-      <div class="chat-popup__footer">
-        <!-- проверено: username из данных владельца -->
-        <a href="https://t.me/Anj_lika_S" target="_blank" rel="noopener" class="btn btn--primary chat-popup__tg-btn">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" style="flex-shrink:0"><path d="M11.944 0A12 12 0 000 12a12 12 0 0012 12 12 12 0 0012-12A12 12 0 0012 0a12 12 0 00-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 01.171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
-          Написать в Telegram
-        </a>
-      </div>
-    </div>
-    <button class="chat-btn" id="chat-btn" aria-label="Открыть онлайн-консультант" aria-expanded="false">
-      <span class="chat-btn__icon chat-btn__icon--open">
-        <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
-        </svg>
-      </span>
-      <span class="chat-btn__icon chat-btn__icon--close" aria-hidden="true">&times;</span>
-      <span class="chat-btn__badge">?</span>
-    </button>
-  </div>
-
   <script src="js/main.js"></script>
 
-  <!-- Structured Data: LocalBusiness -->
+  <!-- Structured Data -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
-    "name": "Anji Studio",
-    "description": "Тату-студия мастера Анжелики в Воронеже",
+    "name": "Анжелика — тату мастер",
+    "description": "Тату мастер в Воронеже. Минимализм, графика и аккуратные тату.",
     "url": "PLACEHOLDER_URL",
     "telephone": "+79397812057",
     "address": {
