@@ -28,7 +28,8 @@ const REQUIRED_FILES = [
   'videos/process.mp4',
 ];
 
-const VK_BOOKING_URL = 'https://vk.com/anjelika_tattoo_vrn';
+const VK_MESSAGES_URL = 'https://vk.com/im/convo/-238183715?entrypoint=community_page&tab=all';
+const VK_GROUP_URL = 'https://vk.com/anjelika_tattoo_vrn';
 
 function fail(message) {
   console.error(`\n[build] ERROR: ${message}`);
@@ -80,20 +81,33 @@ function extractHrefFromSection(html, sectionClass, buttonClass) {
   return hrefMatch ? hrefMatch[1] : null;
 }
 
-const bookingChecks = [
+const primaryCtaChecks = [
   { name: 'Header CTA', url: extractHrefFromTag(indexHtml, 'nav__link--cta') },
-  { name: 'Hero CTA', url: extractHrefFromSection(indexHtml, 'hero__actions', 'btn--primary') },
-  { name: 'About CTA', url: extractHrefFromTag(indexHtml, 'about__cta') },
-  { name: 'Final CTA', url: extractHrefFromSection(indexHtml, 'cta__actions', 'btn--primary') },
+  { name: 'Hero primary CTA', url: extractHrefFromSection(indexHtml, 'hero__actions', 'btn--primary') },
+  { name: 'About primary CTA', url: extractHrefFromTag(indexHtml, 'about__cta') },
+  { name: 'Final primary CTA', url: extractHrefFromSection(indexHtml, 'cta__actions', 'btn--primary') },
   { name: 'Floating CTA', url: extractHrefFromTag(indexHtml, 'floating-cta__btn') },
 ];
 
-for (const { name, url } of bookingChecks) {
-  if (!url) fail(`Booking CTA not found: ${name}`);
-  if (url !== VK_BOOKING_URL) fail(`${name} must link to VK. Found: ${url}`);
+for (const { name, url } of primaryCtaChecks) {
+  if (!url) fail(`Primary CTA not found: ${name}`);
+  if (url !== VK_MESSAGES_URL) fail(`${name} must link to VK messages. Found: ${url}`);
 }
 
-ok('All booking CTAs point to VK');
+ok('All primary CTAs point to VK messages');
+
+const secondaryCtaChecks = [
+  { name: 'Hero secondary CTA', url: extractHrefFromSection(indexHtml, 'hero__actions', 'btn--cta-secondary') },
+  { name: 'About secondary CTA', url: extractHrefFromTag(indexHtml, 'about__cta-secondary') },
+  { name: 'Final secondary CTA', url: extractHrefFromSection(indexHtml, 'cta__actions', 'btn--cta-secondary') },
+];
+
+for (const { name, url } of secondaryCtaChecks) {
+  if (!url) fail(`Secondary CTA not found: ${name}`);
+  if (url !== VK_GROUP_URL) fail(`${name} must link to VK group. Found: ${url}`);
+}
+
+ok('All secondary CTAs point to VK group');
 
 const seoChecks = [
   { name: 'Meta title', pattern: /<title>Тату мастер Анжелика в Воронеже/ },

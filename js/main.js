@@ -264,8 +264,8 @@ function showFallback() {
   fallback.className = 'booking__fallback';
   fallback.innerHTML = `
     <p class="booking__fallback-text">Не удалось отправить заявку через форму.</p>
-    <a href="https://vk.com/anjelika_tattoo_vrn" target="_blank" rel="noopener noreferrer" class="btn btn--primary">
-      Написать в VK
+    <a href="https://vk.com/im/convo/-238183715?entrypoint=community_page&tab=all" target="_blank" rel="noopener noreferrer" class="btn btn--primary">
+      Написать мастеру
     </a>
   `;
   bookingForm.insertAdjacentElement('afterend', fallback);

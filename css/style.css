@@ -845,6 +845,13 @@ input, select, textarea {
   margin-top: 8px;
 }
 
+.about__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 8px;
+}
+
 /* ===== PORTFOLIO ===== */
 .portfolio {
   background: var(--bg-secondary);
@@ -2029,6 +2036,15 @@ input, select, textarea {
   }
 
   .cta__actions .btn {
+    width: 100%;
+  }
+
+  .about__actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .about__actions .btn {
     width: 100%;
   }
 
