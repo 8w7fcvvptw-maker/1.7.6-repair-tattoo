@@ -583,13 +583,17 @@
             <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
           </div>
           <h3 class="booking__handoff-title">Заявка подготовлена</h3>
-          <p class="booking__handoff-text">Нажмите кнопку ниже, чтобы отправить её мастеру в VK. Текст заявки уже готов — останется нажать «Отправить» в чате.</p>
+          <p class="booking__handoff-text">Нажмите «Скопировать и открыть VK» — текст заявки скопируется, затем откроется чат. Вставьте сообщение в поле ввода и отправьте.</p>
           <div class="booking__handoff-preview-wrap">
-            <p class="booking__handoff-preview-label">Ваше сообщение:</p>
-            <p class="booking__handoff-preview" id="booking-handoff-preview"></p>
+            <label for="booking-handoff-preview" class="booking__handoff-preview-label">Ваше сообщение</label>
+            <textarea id="booking-handoff-preview" class="booking__handoff-preview" rows="9" readonly aria-label="Текст заявки для отправки мастеру"></textarea>
           </div>
           <p class="booking__handoff-copy" id="booking-handoff-copy" role="status" aria-live="polite"></p>
-          <a href="https://vk.com/im?sel=-238183715" target="_blank" rel="noopener noreferrer" class="btn btn--primary btn--full booking__handoff-btn" id="booking-handoff-btn">Отправить в VK</a>
+          <div class="booking__handoff-actions">
+            <button type="button" class="btn btn--primary btn--full booking__handoff-btn" id="booking-handoff-btn">Скопировать и открыть VK</button>
+            <a href="https://t.me/Anj_lika_S" target="_blank" rel="noopener noreferrer" class="btn btn--ghost btn--full booking__handoff-btn-secondary" id="booking-handoff-telegram">Отправить в Telegram</a>
+          </div>
+          <p class="booking__handoff-hint">В Telegram текст подставится автоматически — останется нажать «Отправить».</p>
         </div>
       </div>
     </section>

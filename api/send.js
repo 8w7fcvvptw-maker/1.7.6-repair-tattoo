@@ -38,20 +38,32 @@ function validate(body) {
 }
 
 /**
- * Build Telegram message text from form data.
+ * Build Telegram message text from form data (plain text — no Markdown).
  * @param {object} data
  * @returns {string}
  */
 function buildMessage(data) {
   return [
-    '📋 *Новая заявка на запись*',
+    '📋 Новая заявка на запись',
     '',
-    `👤 *Имя:* ${data.name.trim()}`,
-    `📞 *Телефон:* ${data.phone.trim()}`,
-    `🔧 *Услуга:* ${SERVICE_LABELS[data.service]}`,
-    data.date    ? `📅 *Дата:* ${data.date}` : '',
-    data.message ? `💬 *Комментарий:* ${data.message.trim()}` : '',
+    `👤 Имя: ${data.name.trim()}`,
+    `📞 Телефон: ${data.phone.trim()}`,
+    `🔧 Услуга: ${SERVICE_LABELS[data.service]}`,
+    data.date    ? `📅 Дата: ${data.date}` : '',
+    data.message ? `💬 Комментарий: ${data.message.trim()}` : '',
   ].filter(Boolean).join('\n');
+}
+
+/**
+ * Normalize chat id from env (supports numeric ids and @channel usernames).
+ * @param {string|undefined} raw
+ * @returns {string|number}
+ */
+function normalizeChatId(raw) {
+  const trimmed = String(raw || '').trim();
+  if (!trimmed) return trimmed;
+  if (/^-?\d+$/.test(trimmed)) return Number(trimmed);
+  return trimmed;
 }
 
 /**
@@ -63,8 +75,8 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const token  = process.env.TELEGRAM_BOT_TOKEN;
-  const chatId = process.env.TELEGRAM_CHAT_ID;
+  const token  = process.env.TELEGRAM_BOT_TOKEN?.trim();
+  const chatId = normalizeChatId(process.env.TELEGRAM_CHAT_ID);
 
   if (!token || !chatId) {
     console.error('[send] Missing TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID env vars');
@@ -89,7 +101,7 @@ export default async function handler(req, res) {
     const telegramRes = await fetch(`${TELEGRAM_API}/bot${token}/sendMessage`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ chat_id: chatId, text, parse_mode: 'Markdown' }),
+      body: JSON.stringify({ chat_id: chatId, text }),
     });
 
     if (!telegramRes.ok) {

@@ -243,6 +243,9 @@ document.getElementById('consent').addEventListener('change', () => {
 });
 
 /* ===== FORM SUBMISSION ===== */
+const VK_MESSAGES_URL = 'https://vk.com/im?sel=-238183715';
+const TELEGRAM_CONTACT_URL = 'https://t.me/Anj_lika_S';
+
 const SERVICE_LABELS = {
   tattoo: 'Татуировка',
   sketch: 'Разработка эскиза',
@@ -253,6 +256,8 @@ const SERVICE_LABELS = {
 const bookingHandoff = document.getElementById('booking-handoff');
 const bookingHandoffPreview = document.getElementById('booking-handoff-preview');
 const bookingHandoffBtn = document.getElementById('booking-handoff-btn');
+const bookingHandoffTelegram = document.getElementById('booking-handoff-telegram');
+const bookingHandoffCopyStatus = document.getElementById('booking-handoff-copy');
 
 function buildBookingMessage(data) {
   const lines = [
@@ -270,23 +275,37 @@ function buildBookingMessage(data) {
   return lines.join('\n');
 }
 
-async function copyToClipboard(text) {
-  const copyStatus = document.getElementById('booking-handoff-copy');
+async function copyBookingText(text) {
+  if (!text) return false;
+
   try {
     if (navigator.clipboard?.writeText) {
       await navigator.clipboard.writeText(text);
-      if (copyStatus) {
-        copyStatus.textContent = 'Текст заявки скопирован — вставьте его в чат VK.';
-      }
-      return;
+      return true;
     }
   } catch {
-    /* fall through to manual hint */
+    /* clipboard API blocked — try execCommand */
   }
 
-  if (copyStatus) {
-    copyStatus.textContent = 'Скопируйте текст заявки выше и отправьте в чат VK.';
+  if (bookingHandoffPreview) {
+    bookingHandoffPreview.focus();
+    bookingHandoffPreview.select();
+    bookingHandoffPreview.setSelectionRange(0, text.length);
+
+    try {
+      if (document.execCommand('copy')) return true;
+    } catch {
+      /* ignore */
+    }
   }
+
+  return false;
+}
+
+function setHandoffCopyStatus(message, isSuccess = false) {
+  if (!bookingHandoffCopyStatus) return;
+  bookingHandoffCopyStatus.textContent = message;
+  bookingHandoffCopyStatus.classList.toggle('booking__handoff-copy--success', isSuccess);
 }
 
 async function submitBookingForm(data) {
@@ -306,19 +325,43 @@ function showBookingHandoff(message) {
   bookingForm.style.display = 'none';
   bookingSuccess.classList.remove('show');
 
-  if (bookingHandoffPreview) bookingHandoffPreview.textContent = message;
+  if (bookingHandoffPreview) bookingHandoffPreview.value = message;
+  if (bookingHandoffTelegram) {
+    bookingHandoffTelegram.href = `${TELEGRAM_CONTACT_URL}?text=${encodeURIComponent(message)}`;
+  }
+
+  setHandoffCopyStatus('');
+
   if (bookingHandoff) {
     bookingHandoff.removeAttribute('hidden');
     bookingHandoff.classList.add('show');
     bookingHandoff.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
-
-  copyToClipboard(message);
 }
 
-bookingHandoffBtn?.addEventListener('click', () => {
-  const text = bookingHandoffPreview?.textContent || '';
-  if (text) copyToClipboard(text);
+bookingHandoffPreview?.addEventListener('focus', () => {
+  bookingHandoffPreview.select();
+});
+
+bookingHandoffBtn?.addEventListener('click', async () => {
+  const text = bookingHandoffPreview?.value || '';
+  const copied = await copyBookingText(text);
+
+  if (copied) {
+    setHandoffCopyStatus(
+      'Текст скопирован. В чате VK нажмите и удерживайте поле ввода → «Вставить» → «Отправить».',
+      true
+    );
+  } else {
+    setHandoffCopyStatus(
+      'Не удалось скопировать автоматически. Нажмите на текст заявки выше, выделите и скопируйте вручную.',
+      false
+    );
+  }
+
+  window.setTimeout(() => {
+    window.open(VK_MESSAGES_URL, '_blank', 'noopener,noreferrer');
+  }, copied ? 900 : 400);
 });
 
 bookingForm.addEventListener('submit', async e => {
