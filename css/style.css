@@ -439,14 +439,14 @@ input, select, textarea {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 20%;
-  transform: scale(1.05);
+  object-position: center center;
+  transform: scale(1.03);
   animation: heroZoom 20s ease-in-out infinite alternate;
 }
 
 @keyframes heroZoom {
-  from { transform: scale(1.05); }
-  to { transform: scale(1.12); }
+  from { transform: scale(1.03); }
+  to { transform: scale(1.08); }
 }
 
 .hero__overlay {
@@ -454,8 +454,9 @@ input, select, textarea {
   inset: 0;
   z-index: 1;
   background:
-    linear-gradient(180deg, rgba(10, 10, 10, 0.55) 0%, rgba(10, 10, 10, 0.75) 50%, rgba(10, 10, 10, 0.95) 100%),
-    radial-gradient(ellipse at 50% 80%, rgba(255, 255, 255, 0.04) 0%, transparent 60%);
+    linear-gradient(180deg, rgba(10, 10, 10, 0.72) 0%, rgba(10, 10, 10, 0.85) 45%, rgba(10, 10, 10, 0.96) 100%),
+    radial-gradient(ellipse at 50% 40%, rgba(0, 0, 0, 0.35) 0%, transparent 55%),
+    radial-gradient(ellipse at 50% 80%, rgba(255, 255, 255, 0.03) 0%, transparent 60%);
 }
 
 .hero__content {
@@ -584,6 +585,8 @@ input, select, textarea {
 
 .atmosphere__frame {
   position: relative;
+  width: 100%;
+  margin: 0 auto;
   border-radius: var(--radius-lg);
   overflow: hidden;
   border: 1px solid var(--glass-border);
@@ -601,6 +604,7 @@ input, select, textarea {
 
 .atmosphere__media {
   position: relative;
+  width: 100%;
   aspect-ratio: 21 / 9;
   min-height: 180px;
   max-height: 420px;
@@ -609,12 +613,20 @@ input, select, textarea {
 }
 
 .atmosphere__video {
-  width: 100%;
-  height: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: auto;
+  height: auto;
+  min-width: 100%;
+  min-height: 100%;
+  max-width: none;
+  margin: 0;
   object-fit: cover;
-  object-position: center;
+  object-position: center center;
   display: block;
   pointer-events: none;
+  transform: translate(-50%, -50%);
 }
 
 .atmosphere__overlay {
@@ -656,15 +668,20 @@ input, select, textarea {
 
 @media (max-width: 768px) {
   .atmosphere__media {
-    aspect-ratio: 4 / 3;
-    max-height: 280px;
+    aspect-ratio: 16 / 10;
+    max-height: 300px;
   }
 }
 
 @media (max-width: 480px) {
   .atmosphere__media {
-    aspect-ratio: 3 / 4;
-    max-height: 360px;
+    aspect-ratio: 4 / 3;
+    max-height: none;
+    min-height: 220px;
+  }
+
+  .atmosphere__video {
+    object-position: center center;
   }
 }
 
@@ -785,17 +802,6 @@ input, select, textarea {
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
-
-.about__image-accent {
-  position: absolute;
-  bottom: -20px;
-  right: -20px;
-  width: 60%;
-  height: 60%;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  z-index: 0;
 }
 
 .about__copy p {
@@ -1451,6 +1457,86 @@ input, select, textarea {
   color: var(--text-secondary);
 }
 
+.booking__handoff {
+  display: none;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: clamp(32px, 5vw, 48px);
+  text-align: center;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+}
+
+.booking__handoff.show {
+  display: block;
+  animation: fadeScale 0.5s ease;
+}
+
+.booking__handoff-icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  color: var(--accent);
+  border: 1px solid var(--border);
+}
+
+.booking__handoff-title {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  margin-bottom: 12px;
+}
+
+.booking__handoff-text {
+  color: var(--text-secondary);
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  margin-bottom: 24px;
+}
+
+.booking__handoff-preview-wrap {
+  text-align: left;
+  margin-bottom: 20px;
+  padding: 16px 18px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+
+.booking__handoff-preview-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+
+.booking__handoff-preview {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  line-height: 1.65;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.booking__handoff-copy {
+  min-height: 1.4em;
+  font-size: 0.8125rem;
+  color: var(--accent);
+  margin-bottom: 16px;
+}
+
+.booking__handoff-btn {
+  max-width: 320px;
+  margin: 0 auto;
+}
+
 @keyframes fadeScale {
   from { opacity: 0; transform: scale(0.95); }
   to { opacity: 1; transform: scale(1); }
@@ -1552,6 +1638,30 @@ input, select, textarea {
   color: var(--text-secondary);
   font-size: 0.9375rem;
   margin-bottom: 4px;
+}
+
+.footer__address--link {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  margin-bottom: 4px;
+  text-decoration: none;
+  transition: color var(--transition);
+}
+
+.footer__address--link:hover {
+  color: var(--accent);
+}
+
+.footer__address--link:hover .footer__address-hint {
+  color: var(--text-secondary);
+}
+
+.footer__address-hint {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  transition: color var(--transition);
 }
 
 .footer h4 {
@@ -1747,14 +1857,11 @@ input, select, textarea {
 }
 
 .booking__fallback {
-  text-align: center;
-  padding: 24px 0 0;
+  display: none;
 }
 
 .booking__fallback-text {
-  color: var(--text-secondary);
-  margin-bottom: 16px;
-  font-size: 0.9375rem;
+  display: none;
 }
 
 /* ===== SECTION DIVIDERS ===== */

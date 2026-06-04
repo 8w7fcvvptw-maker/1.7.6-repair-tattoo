@@ -243,6 +243,52 @@ document.getElementById('consent').addEventListener('change', () => {
 });
 
 /* ===== FORM SUBMISSION ===== */
+const SERVICE_LABELS = {
+  tattoo: 'Татуировка',
+  sketch: 'Разработка эскиза',
+  coverup: 'Перекрытие',
+  correction: 'Коррекция',
+};
+
+const bookingHandoff = document.getElementById('booking-handoff');
+const bookingHandoffPreview = document.getElementById('booking-handoff-preview');
+const bookingHandoffBtn = document.getElementById('booking-handoff-btn');
+
+function buildBookingMessage(data) {
+  const lines = [
+    'Здравствуйте! Хочу записаться на тату.',
+    '',
+    `Имя: ${data.name}`,
+    `Телефон / контакт: ${data.phone}`,
+    `Услуга: ${SERVICE_LABELS[data.service] || data.service}`,
+  ];
+
+  if (data.date) lines.push(`Желаемая дата: ${data.date}`);
+  if (data.message) lines.push(`Комментарий: ${data.message}`);
+
+  lines.push('', 'Пришла/пришёл с сайта.');
+  return lines.join('\n');
+}
+
+async function copyToClipboard(text) {
+  const copyStatus = document.getElementById('booking-handoff-copy');
+  try {
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(text);
+      if (copyStatus) {
+        copyStatus.textContent = 'Текст заявки скопирован — вставьте его в чат VK.';
+      }
+      return;
+    }
+  } catch {
+    /* fall through to manual hint */
+  }
+
+  if (copyStatus) {
+    copyStatus.textContent = 'Скопируйте текст заявки выше и отправьте в чат VK.';
+  }
+}
+
 async function submitBookingForm(data) {
   const response = await fetch('/api/send', {
     method: 'POST',
@@ -256,20 +302,24 @@ async function submitBookingForm(data) {
   }
 }
 
-function showFallback() {
-  if (document.getElementById('booking-fallback')) return;
+function showBookingHandoff(message) {
+  bookingForm.style.display = 'none';
+  bookingSuccess.classList.remove('show');
 
-  const fallback = document.createElement('div');
-  fallback.id = 'booking-fallback';
-  fallback.className = 'booking__fallback';
-  fallback.innerHTML = `
-    <p class="booking__fallback-text">Не удалось отправить заявку через форму.</p>
-    <a href="https://vk.com/im/convo/-238183715?entrypoint=community_page&tab=all" target="_blank" rel="noopener noreferrer" class="btn btn--primary">
-      Написать мастеру
-    </a>
-  `;
-  bookingForm.insertAdjacentElement('afterend', fallback);
+  if (bookingHandoffPreview) bookingHandoffPreview.textContent = message;
+  if (bookingHandoff) {
+    bookingHandoff.removeAttribute('hidden');
+    bookingHandoff.classList.add('show');
+    bookingHandoff.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  copyToClipboard(message);
 }
+
+bookingHandoffBtn?.addEventListener('click', () => {
+  const text = bookingHandoffPreview?.textContent || '';
+  if (text) copyToClipboard(text);
+});
 
 bookingForm.addEventListener('submit', async e => {
   e.preventDefault();
@@ -284,15 +334,22 @@ bookingForm.addEventListener('submit', async e => {
     message: document.getElementById('message').value.trim(),
   };
 
+  const preparedMessage = buildBookingMessage(formData);
+
   submitBtn.disabled = true;
   submitBtn.textContent = 'Отправка...';
 
   try {
     await submitBookingForm(formData);
     bookingForm.style.display = 'none';
+    if (bookingHandoff) {
+      bookingHandoff.classList.remove('show');
+      bookingHandoff.setAttribute('hidden', '');
+    }
     bookingSuccess.classList.add('show');
+    bookingSuccess.scrollIntoView({ behavior: 'smooth', block: 'center' });
   } catch {
-    showFallback();
+    showBookingHandoff(preparedMessage);
   } finally {
     submitBtn.disabled = false;
     submitBtn.textContent = 'Отправить заявку';

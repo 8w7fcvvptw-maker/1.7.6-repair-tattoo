@@ -21,6 +21,7 @@ const REQUIRED_FILES = [
   'images/apple-touch-icon.png',
   'images/og-image.png',
   'images/master-photo.png',
+  'images/hero-bg.png',
   'images/work-7.png',
   'images/work-8.png',
   'images/work-9.png',
@@ -28,7 +29,7 @@ const REQUIRED_FILES = [
   'videos/process.mp4',
 ];
 
-const VK_MESSAGES_URL = 'https://vk.com/im/convo/-238183715?entrypoint=community_page&tab=all';
+const VK_MESSAGES_URL = 'https://vk.com/im?sel=-238183715';
 const VK_GROUP_URL = 'https://vk.com/anjelika_tattoo_vrn';
 
 function fail(message) {
